@@ -3,9 +3,11 @@ package com.example.demo.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.Service.TransportationService;
@@ -43,9 +45,18 @@ public class TransportationController {
 		
 	}
 	*/
+
+	@RequestMapping(value={ "/insert" }, method = RequestMethod.POST)//Register
+	public String index(@ModelAttribute FareInfo info, @ModelAttribute DutyPersonInfo dutyPersonInfo, Model m)
+	{
+		
+		System.out.println(dutyPersonInfo);
+		System.out.println(info);
+		return "TransportationList";
+	}
 	
-	@RequestMapping(value={ "/", "/insertTransit" })//Register
-	public String index(@PathVariable DutyPersonInfo dutyPersonInfo, @PathVariable FareInfo fareInfo, Model m)
+	@RequestMapping(value={ "/" })//Register
+	public String register()
 	{
 		return "FrmTransportation";
 	}

@@ -12,16 +12,12 @@
 		<div class="container">
 			<div class="col-md-12 col-md-offset-0">
 				<h2 align="center">交通費管理</h2>
-				<p th:if="${validationError}" th:text="${validationError}">validation
-					error</p>
 
-				<form id="sampleForm" action="insertTransit" method="post"
-					th:object="${SearchItem}">
-
+				<form id="sampleForm" action="/insert" method="post" modelAttribute="fareInfo">
 					<table style="margin-left: auto; margin-right: auto;">
 						<tr>
-							<td><label for="LastName" class="col-sm-12 control-label">担当者</label></td>
-							<td><select class="form-control" id="status" name="fareinfo.PersonName">
+							<td><label class="col-sm-12 control-label">担当者</label></td>
+							<td><select class="form-control" id="status" name="PersonName">
 								<option th:each="stat : ${statuses}" th:value="${stat}"
 										th:text="${stat}" th:selected="${stat.equals(group.status)}" />
 								<optgroup label="ナマエ">
@@ -39,10 +35,10 @@
 						
 						<tr>
 							<td><label class="col-sm-12 control-label">出発駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" name="Departure_Station"></td>
+							<td><input type="text" class="form-control" placeholder="駅" name="DepartureStation"></td>
 							<td></td>
 							<td><label class="col-sm-12 control-label">到着駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" name="Arrival_Station"></td>
+							<td><input type="text" class="form-control" placeholder="駅" name="ArrivalStation"></td>
 						</tr>
 						
 						<tr>
@@ -58,7 +54,7 @@
 							<td></td>
 							<td>
 								<button type="reset" class="btn btn-primary" name="clear">クリア</button>
-								<button type="submit" class="btn btn-primary" name="insert">入力</button>
+								<button type="submit" class="btn btn-primary">入力</button>
 							</td>
 						</tr>
 					</table>

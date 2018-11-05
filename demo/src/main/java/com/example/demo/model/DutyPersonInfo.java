@@ -5,6 +5,12 @@ public class DutyPersonInfo {
 	private int PersonID;
 	private String PersonName;
 	
+	
+	@Override
+	public String toString() {
+		return "DutyPersonInfo [PersonID=" + PersonID + ", PersonName=" + PersonName + "]";
+	}
+
 	public DutyPersonInfo()
 	{
 		
