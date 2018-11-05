@@ -13,13 +13,15 @@
 			<div class="col-md-12 col-md-offset-0">
 				<h2 align="center">交通費管理</h2>
 
-				<form id="sampleForm" action="/insert" method="post" modelAttribute="fareInfo">
+				<form id="sampleForm" action="/insert" method="post">
 					<table style="margin-left: auto; margin-right: auto;">
 						<tr>
 							<td><label class="col-sm-12 control-label">担当者</label></td>
 							<td><select class="form-control" id="status" name="PersonName">
+								
 								<option th:each="stat : ${statuses}" th:value="${stat}"
 										th:text="${stat}" th:selected="${stat.equals(group.status)}" />
+										
 								<optgroup label="ナマエ">
 									<option>Lee</option>
 									<option>Cha</option>

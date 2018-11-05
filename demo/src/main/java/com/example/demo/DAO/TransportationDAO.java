@@ -1,12 +1,11 @@
 package com.example.demo.DAO;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.FareInfo;
@@ -16,21 +15,23 @@ public class TransportationDAO {
 	@Autowired
     private JdbcTemplate jdbcTemplate;
 	
-	public List<FareInfo> selectBookList() {
-        return jdbcTemplate.query("SELECT * FROM Tb_DutyPerson", new RowMapper<FareInfo>() {
-            public FareInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-            	FareInfo fareInfo = new FareInfo();
-            	
-            	fareInfo.setFareID(rs.getInt(1));
-            	fareInfo.setPersonID(rs.getInt(2));
-            	fareInfo.setUseDate(rs.getString(3));
-            	fareInfo.setDepartureStation(rs.getString(4));
-            	fareInfo.setArrivalStation(rs.getString(5));;
-            	fareInfo.setPurpose(rs.getString(6));
-            	fareInfo.setFare(rs.getInt(7));
-                return fareInfo;
-            }
-        });
+    public List<FareInfo> find() {
+    	
+    	List<FareInfo> fareList = new ArrayList<FareInfo>();
+        List<Map<String, Object>>  list = jdbcTemplate.queryForList("select * from Tb_Fare");
+        
+        for (Map<String, Object> map : list) {
+        	FareInfo fareInfo = new FareInfo();
+        	fareInfo.setFareID((int) map.get("FareID"));
+        	fareInfo.setPersonID((int) map.get("PersonID"));
+        	fareInfo.setUseDate(map.get("UseDate").toString());
+        	fareInfo.setDepartureStation(map.get("Departure_station").toString());
+        	fareInfo.setArrivalStation(map.get("Arrival_station").toString());
+        	fareInfo.setPurpose(map.get("Purpose").toString());
+        	fareInfo.setFare((int) map.get("Fare"));
+            fareList.add(fareInfo);
+        }
+        return fareList;
     }
     
 	public void insert (FareInfo fareInfo) {
