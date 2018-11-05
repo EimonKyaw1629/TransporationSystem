@@ -1,8 +1,11 @@
 package com.example.demo.Controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,39 +23,24 @@ public class TransportationController {
 	@Autowired
 	private TransportationService tService;
 	
-	public ModelAndView getLoginInfo(String vname)
-	{
-		ModelAndView modelAndView = new ModelAndView();
-		
-	    modelAndView.setViewName(vname);
-	    return modelAndView;
-	}
 	
-	//@RequestMapping(value="/search/starteki= {starteki}&endeki= {endeki}")
-	/*
-	public ModelAndView deletePersonInfo(@PathVariable String starteki, @PathVariable String endeki,Model m) throws IOException {
-	try
-	{
-		String cost=	tService.getFare(starteki, endeki);
-		 ModelAndView modelAndView = this.getLoginInfo("FrmTransportation");
-		
-		return modelAndView;
-	}
-	catch(Exception e)
-	{
-		//return modelAndView;
-	}
-		
-	}
-	*/
-
 	@RequestMapping(value={ "/insert" }, method = RequestMethod.POST)//Register
-	public String index(@ModelAttribute FareInfo info, @ModelAttribute DutyPersonInfo dutyPersonInfo, Model m)
+	public String index(@ModelAttribute FareInfo info, @ModelAttribute DutyPersonInfo dutyPersonInfo, Model m) 
 	{
-		
 		System.out.println(dutyPersonInfo);
 		System.out.println(info);
+		
 		return "TransportationList";
+	}
+	
+	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST)
+	public String cancelUpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
+		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
+		m.addAttribute("DepartureStation",info.getDepartureStation());
+		m.addAttribute("ArrivalStation",info.getArrivalStation());
+		 m.addAttribute("Fare",cost);
+		return "FrmTransportation";
+	   
 	}
 	
 	@RequestMapping(value={ "/" })//Register
