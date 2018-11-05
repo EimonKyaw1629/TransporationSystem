@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+	<div class="form-horizontal">
+		<div class="container">
+			<div class="col-md-12 col-md-offset-0">
+			
+			<h2 align="center">交通費一覧</h2><br>
+					
+			<table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center" name="PersonName">担当者</th>
+                            <th class="text-right">利用日</th>
+                            <th class="text-right">出発駅</th>
+                            <th class="text-right">到着駅</th>
+                            <th class="text-right">利用目的</th>
+                            <th class="text-right">金額</th>
+                        </tr>
+                    </thead>	
+                    <tbody>
+                    	<tr th:each="info : ${DutyPersonInfo}" th:object="${DutyPersonInfo}">
+                    		<td th:text="*{PersonName}"></td>
+                    	</tr>
+
+                        <tr th:each="info : ${FareInfo}" th:object="${FareInfo}">
+                        	<td th:text="*{UseDate}"></td>
+                        	<td th:text="*{Departure_Station}"></td>
+                        	<td th:text="*{Arrival_Station}"></td>
+                        	<td th:text="*{Purpose}"></td>
+                        	<td th:text="*{Fare}"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td colspan="2">合計</td>
+                            <td class="text-center">$1,100.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+			
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
