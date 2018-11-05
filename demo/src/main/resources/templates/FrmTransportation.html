@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert Transportation</title>
+</head>
+<body>
+	<div class="form-horizontal" >
+		<div class="container">
+			<div class="col-md-6 col-md-offset-3">
+				<h2 align="center">交通費管理</h2>
+				<form name="editpage" id="insert" action="/insertTransit" method="post" th:object="${FareInfo}"  >
+				<table  style="margin-left:auto;margin-right:auto;">
+					<tr>
+						<td>
+							<label for="LastName" class="col-sm-2 control-label">担当者</label>
+						</td>
+						<td>
+							<select class="form-control" id="status" name="PersonName">
+					        <option th:each="stat : ${statuses}"
+					                th:value="${stat}"
+					                th:text="${stat}"
+					                th:selected="${stat.equals(group.status)}"/>
+					    </select>
+						</td>
+						<td></td>
+						<td>
+							<label for="LastName" class="col-sm-2 control-label">利用日</label>
+						</td>
+						<td>
+							 <input type="text" class="form-control" placeholder="UseDate" th:field="*{UseDate}">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="LastName" class="col-sm-2 control-label">出発駅</label>
+						</td>
+						<td>
+							<input type="text" class="form-control" placeholder="Departure_Station" th:field="*{Departure_Station}">
+						</td>
+						<td></td>
+						<td>
+							<label for="LastName" class="col-sm-2 control-label">到着駅</label>
+						</td>
+						<td>
+							<input type="text" class="form-control" placeholder="Arrival_Station" th:field="*{Arrival_Station}">
+						</td>
+						
+					</tr>
+					<tr>
+					
+						<td>
+							<label for="LastName" class="col-sm-2 control-label">金額</label>
+						</td>
+						<td>
+							<input type="Number" class="form-control" placeholder="Fare" th:field="*{Fare}">
+						</td>
+						<td>
+							<button type="submit" class="btn btn-default" name="update" onClick="${'/search/starteki='+Departure_Station+'&endeki='+Arrival_Station}">交通費検索</button>
+						</td>
+						
+						<td>
+							<label for="LastName" class="col-sm-2 control-label">移動目的</label>
+						</td>
+						<td>
+							<input type="text" class="form-control" placeholder="Purpose" th:field="*{Purpose}">
+						</td>
+						
+					</tr>
+					<tr>
+					<td></td>
+					<td></td>
+						
+						<td>
+						<button type="submit" class="styled" name="clear">クリア</button>
+							<button type="submit" class="btn btn-default" name="insert">入力</button>
+						</td>
+					</tr>
+					
+				</table>
+				
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

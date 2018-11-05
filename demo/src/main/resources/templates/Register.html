@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <div layout:fragment="content">
+    <p class="bg-primary">交通費管理</p>
+        <form>
+            <div>
+            <label for="tantousha">担当者</label>
+            <input type="text" class="form-control" placeholder=""  >
+            <label for="">利用日</label>
+            <input type="text" class="form-control" placeholder=""  >
+            </div>
+            
+            <div>
+            <label for="">出発駅</label>
+            <input type="text" class="form-control" placeholder=""  >
+            <label for="">到着駅</label>
+            <input type="text" class="form-control" placeholder=""  >
+            </div>
+            
+            <div>
+            <label for="">金額</label>
+            <input type="text" class="form-control" placeholder=""  >
+            <button>金額表示</button>
+            <label for="">移動目的</label>
+            <input type="text" class="form-control" placeholder=""  >
+            </div>
+            
+            <div>
+            <button>クリア</button>
+            <button type="submit" >入力</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
