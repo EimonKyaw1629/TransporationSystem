@@ -49,10 +49,16 @@ public class TransportationService  extends JdbcDaoSupport{
 		String cost = null;
 		 String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
 		 Document document = Jsoup.connect(webURL).get();
-         Elements costTitles = document.select(".fare");
-         for (Element widgetTitle1 : costTitles) {
-        	 	cost=widgetTitle1.text();
-        }	
+		 Elements breadCrumbs=document.select("#rsltlst");
+         for (Element breadCrumb : breadCrumbs) {
+        	
+        	 String	result = breadCrumb.text();
+        	 String[] strAry = result.split(" ");
+        	 	 for (int i=0; i < strAry.length; i++) {
+        	 	      cost=strAry[2];
+        	 	    }
+         }
+        
          return cost;
 	}
 	

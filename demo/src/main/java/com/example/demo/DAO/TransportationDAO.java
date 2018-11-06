@@ -36,6 +36,7 @@ public class TransportationDAO {
 	     jdbcTemplate.update ( "DELETE FROM Tb_Fare WHERE PersonID =?" ,
 	    		 fareInfo.getFareID());
 	}
+	
 	public List<Map<String, Object>>  getFareList()
 	{
 		String sql = "Select UseDate,Departure_station,Arrival_station,Purpose,Fare," + 
