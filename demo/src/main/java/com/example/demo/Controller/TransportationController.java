@@ -38,16 +38,8 @@ public class TransportationController {
 		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
 		String tmp = cost.replace("円", "");
 		info.setFare(Integer.parseInt(tmp));
-		
 		m.addAttribute("finfo",info);
-		/*
-		m.addAttribute("PersonID",info.getPersonID());
-		m.addAttribute("UseDate",info.getUseDate());
-		m.addAttribute("Purpose", info.getPurpose());
-		m.addAttribute("DepartureStation",info.getDepartureStation());
-		m.addAttribute("ArrivalStation",info.getArrivalStation());
-		m.addAttribute("Fare",cost);
-		*/
+		
 		return "FrmTransportation";
 	}
 	
