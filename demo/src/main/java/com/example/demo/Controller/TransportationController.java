@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.DAO.TransportationDAO;
 import com.example.demo.Service.TransportationService;
@@ -25,21 +26,8 @@ public class TransportationController {
 	@Autowired
 	private TransportationService tService;
 	
-
 	@Autowired
 	private TransportationDAO dao;
-
-
-	/*@RequestMapping(value={ "/insert" }, method = RequestMethod.POST)
-	public String index(@ModelAttribute FareInfo info, @ModelAttribute DutyPersonInfo dutyPersonInfo, Model m)
-	{
-		System.out.println(dutyPersonInfo);
-		System.out.println(info);
-
-		dao.insert(info);
-		return "TransportationList";
-	}*/
-	
 
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
 	public String cancelUpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
@@ -57,16 +45,16 @@ public class TransportationController {
 	}
 	
 	@RequestMapping(value={ "/insert" },params = "create", method = RequestMethod.POST) 
-	public String UpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
-		
-		System.out.println(info);
+	public String UpdateUser(@ModelAttribute FareInfo info, BindingResult result, @RequestParam String Fare, Model m) throws IOException {
+		String tmp = Fare.replace("円", "");
+		info.setFare(Integer.parseInt(tmp));
+	    System.out.println(info);
 		dao.insert(info);
 		return "TransportationList";
 	}
 	
 	@RequestMapping(value={ "/" }, method = RequestMethod.GET)
-	public String register(Model m) throws JsonProcessingException
-	{
+	public String register(Model m) throws JsonProcessingException {
 		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
 		m.addAttribute("dutyInfo", dutyInfo);
 		return "FrmTransportation";

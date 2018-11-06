@@ -14,18 +14,20 @@
 			<div class="col-md-12 col-md-offset-0">
 				<h2 align="center">交通費管理</h2>
 
-				<form id="sampleForm" action="/insert" method="post">
+				<form id="sampleForm" action="/insert" method="post" name="formtest">
 					<table style="margin-left: auto; margin-right: auto;">
 						<tr>
 							<td><label class="col-sm-12 control-label">担当者</label></td>
 							<td>	
-							<select class="form-control" name="PersonID" id="dropdown">
+							<select class="form-control" name="PersonID" th:value="${PersonID}">
 							<option 
 							      th:each="duty : ${dutyInfo}"
 							      th:value="${duty.PersonID}"
-							      th:text="${duty.PersonName}" ></option>
-							</select>
-							
+							      th:text="${duty.PersonName}"
+							      th:selected="${duty.PersonID == PersonID}" >
+							      
+							</option>
+							</select>	
 							</td>
 							
 							<td></td>
