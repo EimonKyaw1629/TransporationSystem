@@ -47,5 +47,5 @@ public class DutyPersonInfo {
 	{
 		this.PersonName = name;
 	}
-
+	
 }

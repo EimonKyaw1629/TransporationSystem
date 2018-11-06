@@ -18,32 +18,29 @@
 			<table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="text-center" name="PersonName">担当者</th>
+                           <th class="text-right" name="PersonName">担当者</th>
                             <th class="text-right">利用日</th>
                             <th class="text-right">出発駅</th>
                             <th class="text-right">到着駅</th>
                             <th class="text-right">利用目的</th>
-                            <th class="text-right">金額</th>
+                            <th class="text-right">金額(円)</th>
                         </tr>
                     </thead>	
                     <tbody>
-                    	<tr th:each="info : ${DutyPersonInfo}" th:object="${DutyPersonInfo}">
-                    		<td th:text="*{PersonName}"></td>
-                    	</tr>
-
-                        <tr th:each="info : ${FareInfo}" th:object="${FareInfo}">
-                        	<td th:text="*{UseDate}"></td>
-                        	<td th:text="*{Departure_Station}"></td>
-                        	<td th:text="*{Arrival_Station}"></td>
-                        	<td th:text="*{Purpose}"></td>
-                        	<td th:text="*{Fare}"></td>
-                        </tr>
+                    	
+                        <tr class="text-right" th:each="fare : ${FareInfo}">
+							<td th:text="${fare.PersonName}"></td>
+							<td th:text="${fare.UseDate}"></td>
+                        	<td th:text="${fare.Departure_Station}"></td>
+                        	<td th:text="${fare.Arrival_Station}"></td>
+                        	<td th:text="${fare.Purpose}"></td>
+                        	<td th:text="${fare.Fare}"></td>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="2">合計</td>
-                            <td class="text-center">$1,100.00</td>
+                            <td class="text-right" th:text="${Total}"></td>
                         </tr>
                     </tfoot>
                 </table>

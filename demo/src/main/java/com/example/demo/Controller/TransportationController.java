@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,7 @@ public class TransportationController {
 		info.setFare(Integer.parseInt(tmp));
 	    System.out.println(info);
 		dao.insert(info);
-		return "TransportationList";
+		return "redirect:/TransportationList";
 	}
 	
 	@RequestMapping(value={ "/" }, method = RequestMethod.GET)
@@ -61,10 +62,20 @@ public class TransportationController {
 	}
 	
 	@RequestMapping(value="/TransportationList",  method = RequestMethod.GET)
-	public String getListPage()
+	public String getListPage(Model m)
 	{
+		int totalcost=0;
+		List<Map<String, Object>> list=dao.getFareList();
+		for (Map<String, Object> k : list) {
+			
+			totalcost += Integer.valueOf(k.get("Fare").toString());
+			
+		}
 		
+		m.addAttribute("FareInfo", list);
+		m.addAttribute("Total",totalcost);
 	    return "TransportationList";
+	   
 	}
 	
 }

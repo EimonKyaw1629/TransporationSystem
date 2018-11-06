@@ -2,6 +2,7 @@ package com.example.demo.DAO;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,5 +36,16 @@ public class TransportationDAO {
 	     jdbcTemplate.update ( "DELETE FROM Tb_Fare WHERE PersonID =?" ,
 	    		 fareInfo.getFareID());
 	}
+	public List<Map<String, Object>>  getFareList()
+	{
+		String sql = "Select UseDate,Departure_station,Arrival_station,Purpose,Fare," + 
+				"SUBSTRING((SELECT ',' + PersonName  FROM Tb_DutyPerson" + 
+				" where Tb_DutyPerson.PersonID=Tb_Fare.PersonID FOR XML PATH('')), 2, 999999) as PersonName" + 
+				" from Tb_Fare";
+		List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
+		System.out.println(list);
+		return list;
+	}
+	
 	
 }
