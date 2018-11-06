@@ -10,10 +10,16 @@ public class DutyPersonInfo {
 	public String toString() {
 		return "DutyPersonInfo [PersonID=" + PersonID + ", PersonName=" + PersonName + "]";
 	}
-
-	public DutyPersonInfo()
-	{
+	
+	public DutyPersonInfo() {
 		
+	}
+
+	public DutyPersonInfo(int PersonID, String PersonName)
+	{
+		super();
+		this.PersonID = PersonID;
+		this.PersonName = PersonName;
 	}
 	
 	public DutyPersonInfo(String name)

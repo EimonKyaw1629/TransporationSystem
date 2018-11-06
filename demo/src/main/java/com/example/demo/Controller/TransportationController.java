@@ -1,14 +1,16 @@
 package com.example.demo.Controller;
 
+
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.DAO.TransportationDAO;
 import com.example.demo.Service.TransportationService;
@@ -23,35 +25,39 @@ public class TransportationController {
 	@Autowired
 	private TransportationService tService;
 	
+
 	@Autowired
 	private TransportationDAO dao;
 	
-	public ModelAndView getLoginInfo(String vname)
-	{
-		ModelAndView modelAndView = new ModelAndView();
-		
-	    modelAndView.setViewName(vname);
-	    return modelAndView;
-	}
 
-	@RequestMapping(value={ "/insert" }, method = RequestMethod.POST)
+
+	/*@RequestMapping(value={ "/insert" }, method = RequestMethod.POST)
 	public String index(@ModelAttribute FareInfo info, @ModelAttribute DutyPersonInfo dutyPersonInfo, Model m)
 	{
-		
 		System.out.println(dutyPersonInfo);
 		System.out.println(info);
-		
+
 		dao.insert(info);
-		
 		return "TransportationList";
+	}*/
+	
+
+	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
+	public String cancelUpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
+		
+		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
+		m.addAttribute("DepartureStation",info.getDepartureStation());
+		m.addAttribute("ArrivalStation",info.getArrivalStation());
+		m.addAttribute("Fare",cost);
+		return "FrmTransportation";
+	   
 	}
 	
 	@RequestMapping(value={ "/" }, method = RequestMethod.GET)
 	public String register(Model m) throws JsonProcessingException
 	{
-		List<FareInfo> fareInfo = dao.find();
-		m.addAttribute("fareInfo", fareInfo);
-		
+		List<DutyPersonInfo> dutyInfo = dao.DutyfindAll();
+		m.addAttribute("dutyInfo", dutyInfo);
 		return "FrmTransportation";
 	}
 	
@@ -61,16 +67,5 @@ public class TransportationController {
 		
 	    return "TransportationList";
 	}
-	
-	/*@RequestMapping(value = "/personList", method = RequestMethod.GET)
-	public ModelAndView getList(Model m) throws JsonProcessingException{
-	    
-	    List<MongoInfo> info = mdao.SelectAllGender();
-	    
-	    List<Map<String, Object>> list = dao.getPersonInfoList(info);
-		m.addAttribute("personInfo", list);
-	    modelAndView.setViewName("personList");
-	    return modelAndView;
-	}*/
 	
 }

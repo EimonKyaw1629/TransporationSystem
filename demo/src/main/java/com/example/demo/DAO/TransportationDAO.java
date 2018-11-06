@@ -1,5 +1,6 @@
 package com.example.demo.DAO;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.model.DutyPersonInfo;
 import com.example.demo.model.FareInfo;
 
 @Repository
 public class TransportationDAO {
 	@Autowired
     private JdbcTemplate jdbcTemplate;
-	
-    public List<FareInfo> find() {
+
+    public List<FareInfo> fareFind() {
     	
     	List<FareInfo> fareList = new ArrayList<FareInfo>();
         List<Map<String, Object>>  list = jdbcTemplate.queryForList("select * from Tb_Fare");
@@ -34,6 +36,11 @@ public class TransportationDAO {
         return fareList;
     }
     
+    public List<DutyPersonInfo> DutyfindAll() {
+        return this.jdbcTemplate.query("SELECT PersonID, PersonName FROM Tb_DutyPerson",
+            (rs, rowNum) -> new DutyPersonInfo(rs.getInt("PersonID"), rs.getString("PersonName")));
+    }
+    
 	public void insert (FareInfo fareInfo) {
 	     jdbcTemplate.update ("INSERT INTO Tb_Fare (PersonID, UseDate, Departure_station, Arrival_station, Purpose, Fare) VALUES (?,?,?,?,?,?)" ,
 	             1, fareInfo.getUseDate(), fareInfo.getDepartureStation(), fareInfo.getArrivalStation(), fareInfo.getPurpose(), fareInfo.getFare());
@@ -44,8 +51,4 @@ public class TransportationDAO {
 	    		 fareInfo.getFareID());
 	}
 	
-	/*public  void update (FareInfo fareInfo) {
-	     jdbcTemplate.update ( "UPDATE Tb_Fare SET UseDate = ?, Departure_station =? WHERE PersonID =?" ,
-	     );
-	}*/
 }
