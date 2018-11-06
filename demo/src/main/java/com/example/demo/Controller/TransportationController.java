@@ -44,7 +44,9 @@ public class TransportationController {
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
 	public String cancelUpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
 		
-		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());
+		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
+		m.addAttribute("UseDate",info.getUseDate());
+		m.addAttribute("Purpose", info.getPurpose());
 		m.addAttribute("DepartureStation",info.getDepartureStation());
 		m.addAttribute("ArrivalStation",info.getArrivalStation());
 		m.addAttribute("Fare",cost);
