@@ -28,11 +28,11 @@ public class TransportationDAO {
     
 	public void insert (FareInfo fareInfo) {
 	     jdbcTemplate.update ("INSERT INTO Tb_Fare (PersonID, UseDate, Departure_station, Arrival_station, Purpose, Fare) VALUES (?,?,?,?,?,?)" ,
-	             1, fareInfo.getUseDate(), fareInfo.getDepartureStation(), fareInfo.getArrivalStation(), fareInfo.getPurpose(), fareInfo.getFare());
+	    		 fareInfo.getPersonID(), fareInfo.getUseDate(), fareInfo.getDepartureStation(), fareInfo.getArrivalStation(), fareInfo.getPurpose(), fareInfo.getFare());
 	}
 
 	public void delete (FareInfo fareInfo) {
-	     jdbcTemplate.update ( "DELETE FROM book WHERE book_id =?" ,
+	     jdbcTemplate.update ( "DELETE FROM Tb_Fare WHERE PersonID =?" ,
 	    		 fareInfo.getFareID());
 	}
 	

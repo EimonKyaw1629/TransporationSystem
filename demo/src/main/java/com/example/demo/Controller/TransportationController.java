@@ -44,14 +44,24 @@ public class TransportationController {
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
 	public String cancelUpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
 		
+		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
+		m.addAttribute("dutyInfo", dutyInfo);
 		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
+		m.addAttribute("PersonID",info.getPersonID());
 		m.addAttribute("UseDate",info.getUseDate());
 		m.addAttribute("Purpose", info.getPurpose());
 		m.addAttribute("DepartureStation",info.getDepartureStation());
 		m.addAttribute("ArrivalStation",info.getArrivalStation());
 		m.addAttribute("Fare",cost);
 		return "FrmTransportation";
-	   
+	}
+	
+	@RequestMapping(value={ "/insert" },params = "create", method = RequestMethod.POST) 
+	public String UpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
+		
+		System.out.println(info);
+		dao.insert(info);
+		return "TransportationList";
 	}
 	
 	@RequestMapping(value={ "/" }, method = RequestMethod.GET)

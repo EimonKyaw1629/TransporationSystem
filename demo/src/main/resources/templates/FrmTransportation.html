@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert Transportation</title>
+
 </head>
 <body>
 <div layout:fragment="content">
@@ -17,24 +18,14 @@
 					<table style="margin-left: auto; margin-right: auto;">
 						<tr>
 							<td><label class="col-sm-12 control-label">担当者</label></td>
-							<td>
-							<!-- <select th:field="*{dropdownSelectedValue}">
-							  <option 
-							      th:each="dropdownValue: ${singleSelectAllValues}"
-							      th:value="${dropdownValue}"
-							      th:text="${dropdownValue}" ></option>
-							</select>	 -->
+							<td>	
+							<select class="form-control" name="PersonID" id="dropdown">
+							<option 
+							      th:each="duty : ${dutyInfo}"
+							      th:value="${duty.PersonID}"
+							      th:text="${duty.PersonName}" ></option>
+							</select>
 							
-								<select class="form-control" id="status" name="PersonName">
-								<option th:each="stat : ${statuses}" th:value="${stat}"
-										th:text="${stat}" th:selected="${stat.equals(group.status)}" />
-										
-								<optgroup label="ナマエ">
-									<option>Lee</option>
-									<option>Cha</option>
-									<option>Kim</option>
-								</optgroup>
-								</select>
 							</td>
 							
 							<td></td>
@@ -55,7 +46,6 @@
 							
 							<td>
 							<button type="submit" class="btn btn-default" value="search" name="search" >交通費検索</button>
-							
 							</td>
 							<td><label class="col-sm-12 control-label">移動目的</label></td>
 							<td><input type="text" class="form-control" placeholder="Purpose" name="Purpose" th:value="${Purpose}"></td>
@@ -66,10 +56,21 @@
 							<td></td>
 							<td>
 								<button type="reset" class="btn btn-primary" name="clear" value="clear">クリア</button>
-								<button type="submit" class="btn btn-primary" name="create" value="create">入力</button>
+								<input type="submit" class="btn btn-primary" name="create" value="入力"/>
 							</td>
 						</tr>
+						
+						<tr th:each="duty : ${dutyInfo}" th:object="${dutyInfo}">
+						<td th:text="${duty.PersonID}"></td>
+       					<td th:text="${duty.PersonName}"></td>
+						</tr>
+						
+						<tr>
+						<td><input th:value="${PersonID}" /></td>
+						</tr>
+						
 					</table>
+					
 				</form>
 			</div>
 		</div>

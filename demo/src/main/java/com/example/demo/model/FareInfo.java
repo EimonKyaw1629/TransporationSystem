@@ -12,8 +12,8 @@ public class FareInfo extends DutyPersonInfo{
 	
 	@Override
 	public String toString() {
-		return "FareInfo [UseDate=" + UseDate + ", DepartureStation=" + DepartureStation + ", ArrivalStation="
-				+ ArrivalStation + ", Purpose=" + Purpose + ", Fare=" + Fare + "]";
+		return "FareInfo [PersonID=" + PersonID + ", UseDate=" + UseDate + ", DepartureStation=" + DepartureStation
+				+ ", ArrivalStation=" + ArrivalStation + ", Purpose=" + Purpose + ", Fare=" + Fare + "]";
 	}
 
 	public FareInfo()
