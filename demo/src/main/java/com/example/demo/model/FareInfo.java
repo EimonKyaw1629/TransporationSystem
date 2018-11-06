@@ -21,6 +21,18 @@ public class FareInfo extends DutyPersonInfo{
 	
 	}
 	
+	public FareInfo(int FareID, int PersonID, String usedate,String DepartureStation, String ArrivalStation,String purpose, int cost)
+	{
+		super();
+		this.FareID = FareID;
+		this.PersonID = PersonID;
+		this.UseDate = usedate;
+		this.DepartureStation =DepartureStation;
+		this.ArrivalStation = ArrivalStation;
+		this.Purpose = purpose;
+		this.Fare = cost;
+	}
+	
 	public FareInfo(int pid,String usedate,String starteki,String endeki,String purpose,int cost)
 	{
 		super();

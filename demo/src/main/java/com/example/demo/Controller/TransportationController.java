@@ -28,7 +28,6 @@ public class TransportationController {
 
 	@Autowired
 	private TransportationDAO dao;
-	
 
 
 	/*@RequestMapping(value={ "/insert" }, method = RequestMethod.POST)
@@ -45,7 +44,7 @@ public class TransportationController {
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
 	public String cancelUpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
 		
-		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
+		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());
 		m.addAttribute("DepartureStation",info.getDepartureStation());
 		m.addAttribute("ArrivalStation",info.getArrivalStation());
 		m.addAttribute("Fare",cost);
@@ -56,7 +55,7 @@ public class TransportationController {
 	@RequestMapping(value={ "/" }, method = RequestMethod.GET)
 	public String register(Model m) throws JsonProcessingException
 	{
-		List<DutyPersonInfo> dutyInfo = dao.DutyfindAll();
+		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
 		m.addAttribute("dutyInfo", dutyInfo);
 		return "FrmTransportation";
 	}

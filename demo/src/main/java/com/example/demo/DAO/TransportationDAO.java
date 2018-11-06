@@ -1,9 +1,7 @@
 package com.example.demo.DAO;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,28 +14,15 @@ import com.example.demo.model.FareInfo;
 public class TransportationDAO {
 	@Autowired
     private JdbcTemplate jdbcTemplate;
-
-    public List<FareInfo> fareFind() {
-    	
-    	List<FareInfo> fareList = new ArrayList<FareInfo>();
-        List<Map<String, Object>>  list = jdbcTemplate.queryForList("select * from Tb_Fare");
-        
-        for (Map<String, Object> map : list) {
-        	FareInfo fareInfo = new FareInfo();
-        	fareInfo.setFareID((int) map.get("FareID"));
-        	fareInfo.setPersonID((int) map.get("PersonID"));
-        	fareInfo.setUseDate(map.get("UseDate").toString());
-        	fareInfo.setDepartureStation(map.get("Departure_station").toString());
-        	fareInfo.setArrivalStation(map.get("Arrival_station").toString());
-        	fareInfo.setPurpose(map.get("Purpose").toString());
-        	fareInfo.setFare((int) map.get("Fare"));
-            fareList.add(fareInfo);
-        }
-        return fareList;
+    
+    public List<FareInfo> fareFindAll() {
+        return this.jdbcTemplate.query("SELECT * FROM Tb_DutyPerson",
+            (rs, rowNum) -> new FareInfo(rs.getInt("FareID"), rs.getInt("PersonID"), rs.getString("UseDate"),
+            		rs.getString("Departure_station"), rs.getString("Arrival_station"), rs.getString("Purpose"), rs.getInt("Fare")));
     }
     
-    public List<DutyPersonInfo> DutyfindAll() {
-        return this.jdbcTemplate.query("SELECT PersonID, PersonName FROM Tb_DutyPerson",
+    public List<DutyPersonInfo> dutyFindAll() {
+        return this.jdbcTemplate.query("SELECT * FROM Tb_DutyPerson",
             (rs, rowNum) -> new DutyPersonInfo(rs.getInt("PersonID"), rs.getString("PersonName")));
     }
     
