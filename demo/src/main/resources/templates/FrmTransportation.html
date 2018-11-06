@@ -14,7 +14,7 @@
 			<div class="col-md-12 col-md-offset-0">
 				<h2 align="center">交通費管理</h2>
 
-				<form id="sampleForm" action="/insert" method="post" name="formtest">
+				<form id="sampleForm" action="/insert" method="post" name="formtest" th:object="${test}">
 					<table style="margin-left: auto; margin-right: auto;">
 						<tr>
 							<td><label class="col-sm-12 control-label">担当者</label></td>
@@ -32,7 +32,7 @@
 							
 							<td></td>
 							<td><label class="col-sm-12 control-label">利用日</label></td>
-							<td><input type="date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${UseDate}"></td>
+							<td><input type="date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${UseDate}" th:field="*{number}"></td>
 						</tr>
 						
 						<tr>
@@ -44,7 +44,7 @@
 						</tr>
 						<tr>
 							<td><label class="col-sm-12 control-label">金額</label></td>
-							<td><input type="text" class="form-control" name="Fare" placeholder="cost" th:value="${Fare}" ></td>
+							<td><input type="text" class="form-control" name="Fare" placeholder="cost" th:value="${Fare}" readonly></td>
 							
 							<td>
 							<button type="submit" class="btn btn-default" value="search" name="search" >交通費検索</button>
@@ -61,18 +61,7 @@
 								<input type="submit" class="btn btn-primary" name="create" value="入力"/>
 							</td>
 						</tr>
-						
-						<tr th:each="duty : ${dutyInfo}" th:object="${dutyInfo}">
-						<td th:text="${duty.PersonID}"></td>
-       					<td th:text="${duty.PersonName}"></td>
-						</tr>
-						
-						<tr>
-						<td><input th:value="${PersonID}" /></td>
-						</tr>
-						
 					</table>
-					
 				</form>
 			</div>
 		</div>

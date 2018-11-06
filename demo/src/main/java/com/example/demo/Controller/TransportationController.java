@@ -36,6 +36,7 @@ public class TransportationController {
 		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
 		m.addAttribute("dutyInfo", dutyInfo);
 		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
+		
 		m.addAttribute("PersonID",info.getPersonID());
 		m.addAttribute("UseDate",info.getUseDate());
 		m.addAttribute("Purpose", info.getPurpose());
