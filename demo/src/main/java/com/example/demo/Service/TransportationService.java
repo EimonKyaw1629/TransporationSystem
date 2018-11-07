@@ -46,7 +46,7 @@ public class TransportationService  extends JdbcDaoSupport{
 	
 	public String getFare(String starteki,String endeki) throws IOException
 	{
-		String cost = null;
+		 String cost = null;
 		 String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
 		 Document document = Jsoup.connect(webURL).get();
 		 Elements breadCrumbs=document.select("#rsltlst");

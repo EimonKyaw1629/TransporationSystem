@@ -4,8 +4,7 @@
 	  layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert Transportation</title>
-
+			
 </head>
 <body>
 <div layout:fragment="content">
@@ -14,17 +13,17 @@
 			<div class="col-md-12 col-md-offset-0">
 				<h2 align="center">交通費管理</h2>
 
-				<form id="sampleForm" action="/insert" method="post" name="formtest" th:object="${finfo}">
+				<form id="registerForm" action="/insert" method="post" name="registerForm" th:object="${finfo}">
 					<table style="margin-left: auto; margin-right: auto;">
 						<tr>
 							<td><label class="col-sm-12 control-label">担当者</label></td>
 							<td>	
-							<select class="form-control" name="PersonID" th:value="${PersonID}">
+							<select class="form-control" name="PersonID" th:value="${finfo.PersonID}">
 							<option 
 							      th:each="duty : ${dutyInfo}"
 							      th:value="${duty.PersonID}"
 							      th:text="${duty.PersonName}"
-							      th:selected="${duty.PersonID == PersonID}" >
+							      th:selected="${duty.PersonID == finfo.PersonID}" >
 							      
 							</option>
 							</select>	
@@ -33,15 +32,14 @@
 							<td></td>
 							<td><label class="col-sm-12 control-label">利用日</label></td>
 							<td><input type="date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${finfo.UseDate}"></td>
-
 						</tr>
 						
 						<tr>
 							<td><label class="col-sm-12 control-label">出発駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" name="DepartureStation" th:value="${finfo.DepartureStation}"></td>
+							<td><input type="text" class="form-control" placeholder="駅" name="DepartureStation" th:value="${finfo.DepartureStation}" required></td>
 							<td></td>
 							<td><label class="col-sm-12 control-label">到着駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" name="ArrivalStation" th:value="${finfo.ArrivalStation}"></td>
+							<td><input type="text" class="form-control" placeholder="駅" name="ArrivalStation" th:value="${finfo.ArrivalStation}" required></td>
 						</tr>
 						<tr>
 							<td><label class="col-sm-12 control-label">金額</label></td>
@@ -59,7 +57,7 @@
 							<td></td>
 							<td></td>
 							<td>
-								<button type="reset" class="btn btn-primary" name="clear" value="clear">クリア</button>
+								<input type="reset" class="btn btn-primary" name="clear" value="クリア"/>
 								<input type="submit" class="btn btn-primary" name="create" value="入力"/>
 							</td>
 						</tr>
