@@ -5,6 +5,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert Transportation</title>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script>
+			$(document).ready(function(){
+				$('#btnClear').click(function(){				
+					
+						/*Clear all input type="text" box*/
+						$('#sampleForm input[type="text"]').val('');
+						$('#sampleForm input[type="date"]').val('');
+						
+				});
+			});
+		</script>
+
 
 </head>
 <body>
@@ -19,12 +33,12 @@
 						<tr>
 							<td><label class="col-sm-12 control-label">担当者</label></td>
 							<td>	
-							<select class="form-control" name="PersonID" th:value="${PersonID}">
+							<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
 							<option 
 							      th:each="duty : ${dutyInfo}"
 							      th:value="${duty.PersonID}"
 							      th:text="${duty.PersonName}"
-							      th:selected="${duty.PersonID == PersonID}" >
+							      th:selected="${duty.PersonID == finfo.PersonID}" >
 							      
 							</option>
 							</select>	
@@ -57,7 +71,8 @@
 							<td></td>
 							<td></td>
 							<td>
-								<button type="reset" class="btn btn-primary" name="clear" value="clear">クリア</button>
+								  <input type="button" id="btnClear" class="btn btn-primary" value="クリア"/>
+								
 								<input type="submit" class="btn btn-primary" name="create" value="入力"/>
 							</td>
 						</tr>
