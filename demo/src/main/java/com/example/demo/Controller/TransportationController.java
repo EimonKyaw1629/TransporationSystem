@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,14 +32,17 @@ public class TransportationController {
 	private TransportationDAO dao;
 
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
-	public String cancelUpdateUser(@ModelAttribute FareInfo info, BindingResult result, Model m) throws IOException {
+	public String cancelUpdateUser(@ModelAttribute FareInfo info,BindingResult result, Model m) throws IOException {
 		
 		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
-		String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
-		String tmp = cost.replace("円", "");
-		info.setFare(Integer.parseInt(tmp));
-		
 		m.addAttribute("dutyInfo", dutyInfo);
+		if(info.getArrivalStation()!="" && info.getDepartureStation()!="")
+		{
+			String cost= tService.getFare(info.getDepartureStation(),info.getArrivalStation());	
+			String tmp = cost.replace("円", "");
+			info.setFare(Integer.parseInt(tmp));
+		}
+
 		m.addAttribute("finfo",info);
 		return "FrmTransportation";
 	}
@@ -48,6 +52,7 @@ public class TransportationController {
 		dao.insert(info);
 		return "redirect:/TransportationList";
 	}
+
 	
 	@RequestMapping(value={ "/" }, method = RequestMethod.GET)
 	public String register(Model m,@ModelAttribute FareInfo info, BindingResult result) throws JsonProcessingException {
@@ -61,14 +66,17 @@ public class TransportationController {
 	public String getListPage(Model m) {
 		int totalcost=0;
 		List<Map<String, Object>> list=dao.getFareList();
-		for (Map<String, Object> k : list) {
-			totalcost += Integer.valueOf(k.get("Fare").toString());
+
+		if(!list.isEmpty()) {
+			for (Map<String, Object> k : list) {	
+				totalcost += Integer.valueOf(k.get("Fare").toString());
+			}
+			m.addAttribute("Total",totalcost);
 		}
-		
+		else {
+			list= new ArrayList<Map<String, Object>>();
+		}
 		m.addAttribute("FareInfo", list);
-		m.addAttribute("Total",totalcost);
 	    return "TransportationList";
-	   
 	}
-	
 }
