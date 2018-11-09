@@ -49,6 +49,7 @@ public class TransportationDAO {
 	}
 	public List<Map<String,Object>> getSearchList(FareInfo info)
 	{
+
 		String sql= null;
 		if(info.getUseDate() =="" && info.getEndDate()== "")
 		{
