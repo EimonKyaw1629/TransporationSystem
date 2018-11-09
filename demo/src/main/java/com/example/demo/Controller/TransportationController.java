@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,6 @@ public class TransportationController {
 		dao.insert(info);
 		return "redirect:/TransportationList";
 	}
-
 	
 	@RequestMapping(value={ "/" }, method = RequestMethod.GET)
 	public String register(Model m,@ModelAttribute FareInfo info, BindingResult result) throws JsonProcessingException {
@@ -83,12 +83,9 @@ public class TransportationController {
 	    return "TransportationList";
 	}
 	
-	@RequestMapping(value="/back",  method = RequestMethod.POST)
-	public String backPreviousPage(Model m,@ModelAttribute FareInfo info, BindingResult result)
-	{
-		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
-		m.addAttribute("dutyInfo", dutyInfo);
-		m.addAttribute("finfo", info);
-		return "FrmTransportation";
+	@RequestMapping(value = "/delete")
+	public String deletePersonInfo(@RequestParam int id, Model m) {
+		dao.deleteFaleInfo(id);
+		return "redirect:/TransportationList";
 	}
 }

@@ -32,14 +32,14 @@ public class TransportationDAO {
 	    		 fareInfo.getPersonID(), fareInfo.getUseDate(), fareInfo.getDepartureStation(), fareInfo.getArrivalStation(), fareInfo.getPurpose(), fareInfo.getFare());
 	}
 
-	public void delete (FareInfo fareInfo) {
-	     jdbcTemplate.update ( "DELETE FROM Tb_Fare WHERE PersonID =?" ,
-	    		 fareInfo.getFareID());
+	public void deleteFaleInfo (int fareID) {
+	     jdbcTemplate.update ( "DELETE FROM Tb_Fare WHERE FareID =?" ,
+	    		 fareID);
 	}
 	
 	public List<Map<String, Object>>  getFareList()
 	{
-		String sql = "Select UseDate,Departure_station,Arrival_station,Purpose,Fare," + 
+		String sql = "Select UseDate,Departure_station,Arrival_station,Purpose,Fare,FareID," + 
 				"SUBSTRING((SELECT ',' + PersonName  FROM Tb_DutyPerson" + 
 				" where Tb_DutyPerson.PersonID=Tb_Fare.PersonID FOR XML PATH('')), 2, 999999) as PersonName" + 
 				" from Tb_Fare";

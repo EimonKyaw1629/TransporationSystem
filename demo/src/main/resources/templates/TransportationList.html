@@ -33,12 +33,20 @@
 					</tr>
 				</table>
 			</div>
+			
 			<div style="float:right;">
+			<form id="sampleForm" action="/TransportationList">
 				<table>
-					<tr><th><input style="text-align:center; width:70px; height:30px;" type="button" class="btn btn-primary" name="ListALL" value="ALL"></th></tr>
-					<tr><th><input style="text-align:center; width:70px; height:30px;" type="button" class="btn btn-primary" name="find" value="Create"></th></tr>
+					<tr>
+						<th><input style="text-align:center; width:70px; height:30px;" type="submit" class="btn btn-primary" value="ALL"></th>
+						<th width=5px></th>
+						<th><input style="text-align:center; width:70px; height:30px;" type="button" class="btn btn-primary"  value="Create"
+								   name="find" onclick="location.href='/'"></th>
+					</tr>
 				</table>
+			</form>
 			</div>
+			
 				<table class="table table-striped">
                     <thead>
                         <tr>
@@ -48,6 +56,7 @@
                             <th class="text-right">到着駅</th>
                             <th class="text-right">利用目的</th>
                             <th class="text-right">金額(円)</th>
+                            <th class="text-right">備考</th>
                         </tr>
                     </thead>	
                     <tbody>
@@ -59,6 +68,7 @@
                         	<td th:text="${fare.Arrival_Station}"></td>
                         	<td th:text="${fare.Purpose}"></td>
                         	<td th:text="${fare.Fare}"></td>
+                        	<td><a th:href="@{/delete(id=${fare.FareID})}">Delete</a></td>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -66,19 +76,8 @@
                             <td colspan="2">合計</td>
                             <td class="text-right" th:text="${Total}"></td>
                         </tr>
-                        <!-- 
-                        <tr>
-                           <td colspan="3"></td>
-                           <td colspan="3"><input class="btn btn-primary" type="button" value="戻る" onclick="history.back(-1);"></td>
-                       </tr>
-                        -->
-  	                  </tfoot>
-                </table>   
-                 <div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:center;">
-                <form id="sampleForm" action="/back" method="post" >
-    			 <input type="submit" class="btn btn-primary" name="create" value="戻る"/> 
-			    </form>
-				</div>      
+  	                </tfoot>
+                </table>        
 			</div>
 		</div>
 	</div>
