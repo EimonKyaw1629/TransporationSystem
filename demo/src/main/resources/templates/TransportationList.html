@@ -14,7 +14,22 @@
 			<div class="col-md-12 col-md-offset-0">
 			
 			<h2 align="center">交通費一覧</h2><br>
-				
+				<table>
+					<tr>
+						<th>担当者</th>
+						<th>
+						<select>
+							<option>
+							</option>
+						</select></th>
+					</tr>
+					<tr>
+						<th>利用日</th>
+						<th><input type="date" class="form-control"></th>
+						<th>&nbsp;&nbsp;~&nbsp;&nbsp;</th>
+						<th><input type="date" class="form-control"></th>
+					</tr>		
+				</table>
 				<table class="table table-striped">
                     <thead>
                         <tr>
@@ -42,12 +57,19 @@
                             <td colspan="2">合計</td>
                             <td class="text-right" th:text="${Total}"></td>
                         </tr>
+                        <!-- 
                         <tr>
                            <td colspan="3"></td>
                            <td colspan="3"><input class="btn btn-primary" type="button" value="戻る" onclick="history.back(-1);"></td>
                        </tr>
-                    </tfoot>
-                </table>         
+                        -->
+  	                  </tfoot>
+                </table>   
+                 <div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:center;">
+                <form id="sampleForm" action="/back" method="post" >
+    			 <input type="submit" class="btn btn-primary" name="create" value="戻る"/> 
+			    </form>
+				</div>      
 			</div>
 		</div>
 	</div>

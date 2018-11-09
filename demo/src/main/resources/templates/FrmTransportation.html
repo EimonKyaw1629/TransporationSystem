@@ -8,14 +8,29 @@
 <title>Insert Transportation</title>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
 	$('#btnClear').click(function(){				
 		/*Clear all input type="text" box*/
 		$('#sampleForm input[type="text"]').val('');
 		$('#sampleForm input[type="date"]').val('');		
 	});
+
 });
+
+
+function check()
+{
+    if (document.getElementById('cost').value=="0円"
+     || document.getElementById('cost').value==undefined)
+    {
+       
+        $("p").parent().after("<br/><div class='validation' style='color:red;margin-bottom: 20px;'>出発駅や到着駅を入れて、交通費検索ボタンを押下ください</div>");
+        return false;
+    }
+    return true;
+}
+
 </script>
 
 </head>
@@ -27,11 +42,11 @@ $(document).ready(function(){
 				<h2 align="center">交通費管理</h2>
 
 				<form id="sampleForm" action="/insert" method="post" th:object="${finfo}">
-					<table style="margin-left: auto; margin-right: auto;">
+					<table style="margin-left: auto; margin-right: auto; table-layout: fixed;" >
 					<tr height = 50px></tr>
 						<tr >
 							<td bgcolor="#C4FDFF" width="90"><label class="col-sm-12 control-label">担当者</label></td>
-							<td>	
+							<td width=200px>
 
 							<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
 							<option 
@@ -44,9 +59,9 @@ $(document).ready(function(){
 							</select>	
 							</td>
 							
-							<td></td>
+							<td width=150px></td>
 							<td bgcolor="#C4FDFF" width="90"><label class="col-sm-12 control-label">利用日</label></td>
-							<td><input type="date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${finfo.UseDate}"></td>
+							<td width=200px><input type="date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${finfo.UseDate}"></td>
 						</tr><tr height = 50px></tr>
 						
 						<tr>
@@ -58,21 +73,23 @@ $(document).ready(function(){
 						</tr><tr height = 50px></tr>
 						<tr>
 							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">金額</label></td>
-							<td><input type="text" class="form-control" name="Fare" placeholder="cost" th:value="${finfo.Fare}+円" readonly></td>
+							<td><input type="text" id="cost" class="form-control" name="Fare" placeholder="cost" th:value="${finfo.Fare}+円" readonly required></td>
 							
 							<td>
 							<button type="submit" class="btn btn-default" value="search" name="search" >金額表示</button>
 							</td>
 							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">移動目的</label></td>
 							<td><input type="text" class="form-control" placeholder="Purpose" name="Purpose" th:value="${finfo.Purpose}"></td>
-						</tr><tr height = 50px></tr>
-						
+						</tr>
 						<tr>
-							<td></td>
+						<td ><p/></td>
+						</tr>
+						<tr>
+							<td ></td>
 							<td></td>
 							<td>
 								<input type="button" id="btnClear" class="btn btn-primary" value="クリア"/>
-								<input type="submit" class="btn btn-primary" name="create" value="追加"/>
+								<input type="submit" id="btncreate" class="btn btn-primary" name="create" value="追加"  onclick=" return check();"/>
 							</td>
 						</tr>
 					</table>

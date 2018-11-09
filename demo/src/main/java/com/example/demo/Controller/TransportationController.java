@@ -49,6 +49,9 @@ public class TransportationController {
 	
 	@RequestMapping(value={ "/insert" },params = "create", method = RequestMethod.POST) 
 	public String UpdateUser(@ModelAttribute FareInfo info, BindingResult result, @RequestParam String Fare, Model m) throws IOException {
+		String tmp = Fare.replace("円", "");
+		info.setFare(Integer.parseInt(tmp));
+	    System.out.println(info);
 		dao.insert(info);
 		return "redirect:/TransportationList";
 	}
@@ -78,5 +81,14 @@ public class TransportationController {
 		}
 		m.addAttribute("FareInfo", list);
 	    return "TransportationList";
+	}
+	
+	@RequestMapping(value="/back",  method = RequestMethod.POST)
+	public String backPreviousPage(Model m,@ModelAttribute FareInfo info, BindingResult result)
+	{
+		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
+		m.addAttribute("dutyInfo", dutyInfo);
+		m.addAttribute("finfo", info);
+		return "FrmTransportation";
 	}
 }
