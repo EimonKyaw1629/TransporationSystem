@@ -107,7 +107,7 @@ public class TransportationController {
 		}
 		else {
 			
-			list= dao.getFareList();
+			list= new ArrayList<Map<String, Object>>();
 		}
 		
 		m.addAttribute("finfo",info);
