@@ -66,7 +66,9 @@ public class TransportationController {
 	}
 	
 	@RequestMapping(value="/TransportationList",  method = RequestMethod.GET)
-	public String getListPage(Model m) {
+	public String getListPage(Model m,@ModelAttribute FareInfo info) {
+		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
+		m.addAttribute("dutyInfo", dutyInfo);
 		int totalcost=0;
 		List<Map<String, Object>> list=dao.getFareList();
 
@@ -79,6 +81,7 @@ public class TransportationController {
 		else {
 			list= new ArrayList<Map<String, Object>>();
 		}
+		m.addAttribute("finfo",info);
 		m.addAttribute("FareInfo", list);
 	    return "TransportationList";
 	}
@@ -87,5 +90,28 @@ public class TransportationController {
 	public String deletePersonInfo(@RequestParam int id, Model m) {
 		dao.deleteFaleInfo(id);
 		return "redirect:/TransportationList";
+	}
+	
+	@RequestMapping(value="/searchItem",  method = RequestMethod.POST)
+	public String searchItem(Model m,@ModelAttribute FareInfo info) {
+		
+		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
+		m.addAttribute("dutyInfo", dutyInfo);
+		int totalcost=0;
+		List<Map<String, Object>> list=dao.getSearchList(info);
+		if(!list.isEmpty()) {
+			for (Map<String, Object> k : list) {	
+				totalcost += Integer.valueOf(k.get("Fare").toString());
+			}
+			m.addAttribute("Total",totalcost);
+		}
+		else {
+			
+			list= dao.getFareList();
+		}
+		
+		m.addAttribute("finfo",info);
+		m.addAttribute("FareInfo", list);
+		return "TransportationList";
 	}
 }

@@ -9,11 +9,12 @@ public class FareInfo extends DutyPersonInfo{
 	private String ArrivalStation;
 	private String Purpose;
 	private int Fare;
+	private String EndDate;
 	
 	@Override
 	public String toString() {
 		return "FareInfo [PersonID=" + PersonID + ", UseDate=" + UseDate + ", DepartureStation=" + DepartureStation
-				+ ", ArrivalStation=" + ArrivalStation + ", Purpose=" + Purpose + ", Fare=" + Fare + "]";
+				+ ", ArrivalStation=" + ArrivalStation + ", Purpose=" + Purpose + ", Fare=" + Fare + ", EndDate=" + EndDate + "]";
 	}
 
 	public FareInfo()
@@ -123,5 +124,13 @@ public class FareInfo extends DutyPersonInfo{
 	{
 		this.Fare = cost;
 	}
+	public String getEndDate()
+	{
+		return this.EndDate;
+	}
 	
+	public void setEndDate(String e)
+	{
+		this.EndDate =e;
+	}
 }

@@ -15,23 +15,31 @@
 			
 			<h2 align="center">交通費一覧</h2><br>
 			<div style="float:left;">
+				<form id="sampleForm" action="/searchItem" method="post" th:object="${finfo}">
 				<table>
 					<tr>
 						<th>担当者</th>
 						<th>
-						<select>
-							<option>
+						<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
+							<option 
+							      th:each="duty : ${dutyInfo}"
+							      th:value="${duty.PersonID}"
+							      th:text="${duty.PersonName}"
+							      th:selected="${duty.PersonID == finfo.PersonID}" >
+							      
 							</option>
-						</select></th>
+							</select>	
+						</th>
 					</tr>
 					<tr>
 						<th>利用日</th>
-						<th><input type="date" class="form-control"></th>
+						<th><input type="date" class="form-control" name="UseDate"  th:value="${finfo.UseDate}"></th>
 						<th>&nbsp;&nbsp;~&nbsp;&nbsp;</th>
-						<th><input type="date" class="form-control"></th>
-						<th><input type="button" class="btn btn-primary" name="find" value="検索"></th>
+						<th><input type="date" class="form-control" name="EndDate"  th:value="${finfo.EndDate}"></th>
+						<th><input type="submit" class="btn btn-primary" name="find" value="検索"></th>
 					</tr>
 				</table>
+				</form>
 			</div>
 			
 			<div style="float:right;">
