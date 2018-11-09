@@ -47,6 +47,35 @@ public class TransportationDAO {
 		System.out.println(list);
 		return list;
 	}
+	public List<Map<String,Object>> getSearchList(FareInfo info)
+	{
+		String sql= null;
+		if(info.getUseDate() =="" && info.getEndDate()== "")
+		{
+			 sql ="Select UseDate,Departure_station,Arrival_station,Purpose,Fare,FareID, " + 
+						"SUBSTRING((SELECT ',' + PersonName  FROM Tb_DutyPerson" + 
+						" where Tb_DutyPerson.PersonID=Tb_Fare.PersonID FOR XML PATH('')), 2, 999999) as PersonName" + 
+						" from Tb_Fare" + 
+						" where (PersonID =IIF("+info.getPersonID()+ " IS NULL, PersonID, "+ info.getPersonID()+ ")) ";
+						
+				
+		}
+		
+		else
+		{
+			 sql ="Select UseDate,Departure_station,Arrival_station,Purpose,Fare,FareID, " + 
+						"SUBSTRING((SELECT ',' + PersonName  FROM Tb_DutyPerson" + 
+						" where Tb_DutyPerson.PersonID=Tb_Fare.PersonID FOR XML PATH('')), 2, 999999) as PersonName" + 
+						" from Tb_Fare" + 
+						" where (PersonID =IIF("+info.getPersonID()+ " IS NULL, PersonID, "+ info.getPersonID()+ ")) and"
+						+ "(UseDate between \'"+info.getUseDate()+"\' AND \'"+info.getEndDate()+"\' ) ";
+				
+		}
+		
+		List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
+		System.out.println(list);
+		return list;
+	}
 	
 	
 }
