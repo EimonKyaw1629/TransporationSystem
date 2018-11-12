@@ -50,7 +50,7 @@ function check()
 
 							<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
 							<option 
-							      th:each="duty : ${dutyInfo}"
+							      th:each="duty : ${dutyPersonInfo}"
 							      th:value="${duty.PersonID}"
 							      th:text="${duty.PersonName}"
 							      th:selected="${duty.PersonID == finfo.PersonID}" >

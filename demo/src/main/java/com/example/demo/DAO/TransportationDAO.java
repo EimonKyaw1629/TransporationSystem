@@ -1,9 +1,14 @@
 package com.example.demo.DAO;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -69,5 +74,28 @@ public class TransportationDAO {
 		return list;
 	}
 	
+	public String getFare(String starteki,String endeki) throws IOException
+	{
+		 String cost = null;
+		 String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
+		 Document document = Jsoup.connect(webURL).get();
+		 Elements breadCrumbs=document.select("#rsltlst");
+         for (Element breadCrumb : breadCrumbs) {
+        	
+        	 String	result = breadCrumb.text();
+        	 String[] strAry = result.split(" ");
+        	 	 for (int i=0; i < strAry.length; i++) {
+        	 	      cost=strAry[2];
+        	 	    }
+         }
+        
+         return cost;
+	}
 	
+	public List<Map<String, Object>> getFareInfo()
+	{
+		String sql ="Select * from Tb_Fare";
+		  List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
+		  return list;
+	}
 }
