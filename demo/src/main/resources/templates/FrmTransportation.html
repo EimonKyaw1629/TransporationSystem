@@ -15,10 +15,19 @@ $(document).ready(function(){
 		$('#sampleForm input[type="text"]').val('');
 		$('#sampleForm input[type="date"]').val('');		
 	});
-
 });
 
-
+$(function () {
+	        $("#checkBoxId").click(function () {
+	            if ($(this).is(":checked")) {
+	                $("#cost").removeAttr("readonly");
+	                $("#cost").focus();
+	            } else {
+	                $("#cost").attr("readonly", "readonly");
+	            }
+	        });
+	    });
+	
 function check()
 {
     if (document.getElementById('cost').value=="0円"
@@ -31,6 +40,29 @@ function check()
     return true;
 }
 
+/* $(function(){
+	var DS = $('#DepartureStation');
+	var AS = $('#ArrivalStation');
+	text.focus(function(){		  
+	    text.val('start');
+	});
+	text.blur(function(){
+	    $.ajax({
+	        type:"POST",
+	        url:"/multi",
+	        data:"DepartureStation=" + $('#DepartureStation').val()
+	        dataType : "text",
+	        contentType: "application/json",
+	        scriptCharset: 'utf-8',
+	        success: function(otdata, dataType){
+	            alert("OK");
+	        },
+	        error: function(xhr, status, error) {
+	            alert(error);
+	        }  
+	    });
+	  });
+	}); */
 </script>
 
 </head>
@@ -50,7 +82,7 @@ function check()
 
 							<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
 							<option 
-							      th:each="duty : ${dutyInfo}"
+							      th:each="duty : ${dutyPersonInfo}"
 							      th:value="${duty.PersonID}"
 							      th:text="${duty.PersonName}"
 							      th:selected="${duty.PersonID == finfo.PersonID}" >
@@ -66,17 +98,18 @@ function check()
 						
 						<tr>
 							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">出発駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" name="DepartureStation" th:value="${finfo.DepartureStation}" required></td>
+							<td><input type="text" class="form-control" placeholder="駅" id="DepartureStation" name="DepartureStation" th:value="${finfo.DepartureStation}" required></td>
 							<td></td>
 							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">到着駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" name="ArrivalStation" th:value="${finfo.ArrivalStation}" required></td>
+							<td><input type="text" class="form-control" placeholder="駅" id="ArrivalStation" name="ArrivalStation" th:value="${finfo.ArrivalStation}" required></td>
 						</tr><tr height = 50px></tr>
 						<tr>
 							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">金額</label></td>
 							<td><input type="text" id="cost" class="form-control" name="Fare" placeholder="cost" th:value="${finfo.Fare}+円" readonly required></td>
 							
 							<td>
-							<button type="submit" class="btn btn-default" value="search" name="search" >金額表示</button>
+							<button type="submit" class="btn btn-default" value="search" name="search" >金額表示</button>&nbsp
+							<input type="checkbox" class="center" id="checkBoxId">
 							</td>
 							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">移動目的</label></td>
 							<td><input type="text" class="form-control" placeholder="Purpose" name="Purpose" th:value="${finfo.Purpose}"></td>
