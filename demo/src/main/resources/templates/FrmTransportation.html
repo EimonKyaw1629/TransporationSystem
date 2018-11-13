@@ -12,7 +12,7 @@
 $(document).ready(function(){
     $('#btnClear').click(function(){                
         $('#sampleForm input[type="text"]').val('');
-        $('#sampleForm input[type="date"]').val('');        
+        $('#sampleForm input[type="date"]').val(getFormattedDate(today()));        
     });
     $("#Date").val(getFormattedDate(today()));
     
