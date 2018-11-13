@@ -40,35 +40,28 @@ public class TransportationDAO {
     public List<Map<String,Object>> getSearchList(FareInfo info)
     {
        String sql= null;
+       String AndOr =null;
        String endDate  = info.getEndDate();
        String startDate = info.getUseDate();
-       String AndOr =null;
-       
        
        if(info.getPersonID()==0) {
     	   AndOr = "or";
-    	   if((startDate == null && endDate == null)||(startDate == "" && endDate == "")) {
-    		   startDate = null;
-               endDate = null;
-    	   } else {
-    		   if (info.getEndDate() == ""){
-    			   endDate="'9999-01-01'";
-                   startDate = "'"+startDate+"'";
-    		   }else {
-    			   endDate="'"+endDate+"'";
-                   startDate = "'"+startDate+"'";
-    		   }
-    	   }
        } else {
     	   AndOr = "and";
-           if( info.getEndDate() == "") {
-        	   endDate = "'9999-01-01'";
-               startDate = "'"+startDate+"'";
-           } else {
-        	   endDate = "'"+endDate+"'";
-               startDate = "'"+startDate+"'";
-           }
        }
+       
+       if((startDate == null && endDate == null)||(startDate == "" && endDate == "")) {
+		   startDate = null;
+           endDate = null;
+	   } else {
+		   if (info.getEndDate() == ""){
+			   endDate="'9999-01-01'";
+               startDate = "'"+startDate+"'";
+		   }else {
+			   endDate="'"+endDate+"'";
+               startDate = "'"+startDate+"'";
+		   }
+	   }
        
        sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
                "FROM Tb_Fare" +
@@ -81,4 +74,5 @@ public class TransportationDAO {
         System.out.println(list);
         return list;
     }
+    
 }
