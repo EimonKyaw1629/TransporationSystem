@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DAO.TransportationDAO;
+import com.example.demo.Service.TransportationService;
 
 @RestController
 public class TransportationRestController {
 
 	@Autowired
-	private TransportationDAO dao;
+	private TransportationService dao;
 	
 	@RequestMapping(value="/costitem/",  method = RequestMethod.POST)
     public int test(@RequestParam(value = "from" , required = false) String departure, @RequestParam(value = "to" , required = false) String arrive, ModelMap model) throws IOException

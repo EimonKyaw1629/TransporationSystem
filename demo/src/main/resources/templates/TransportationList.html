@@ -80,13 +80,13 @@ function clearFilter()
                     <thead>
                         <tr>
                            <th class="text-right" >担当者
-                           	 <select  id='filterText'  name="PersonID" th:value="${finfo.PersonName}" onchange='filterText()'>
+                           	 <select  id='filterText'  name="PersonID" th:value="${PersonName}" onchange='filterText()'>
 						<option value="0" >All</option>
 							<option 
 							      th:each="duty : ${dutyInfo}"
 							      th:value="${duty.PersonName}"
 							      th:text="${duty.PersonName}"
-							      th:selected="${duty.PersonID == finfo.PersonID}" >
+							      th:selected="${duty.PersonID == PersonID}" >
 							      
 							</option>
 							</select>

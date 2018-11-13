@@ -43,144 +43,59 @@ public class TransportationDAO {
     }
     
     
-    public List<Map<String,Object>> getSearchList(FareInfo info)//
+    public List<Map<String,Object>> getSearchList(FareInfo info)
     {
         String sql= null;
         String endDate  = info.getEndDate();
         String startDate = info.getUseDate();
-        if(info.getPersonID() == 0)
-        {
-            
-            
-            if( info.getEndDate() == "" && info.getUseDate() != "" ) {
-                
-                endDate="9999-01-01";
-            }
-            else if( info.getEndDate() == "" && info.getUseDate() != "" ) {
-
-                startDate="1700-01-01";
-            }
-            
-            if((startDate == null && endDate == null)||(startDate == "" && endDate == ""))
-            {
-                startDate = null;
-                endDate = null;
-                 sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                            "FROM Tb_Fare" +
-                            " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                            +" where " +
-                            "Tb_Fare.UseDate BETWEEN (ISNULL("+startDate+",Tb_Fare.UseDate)) " +
-                                    "  AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
-            }
-            
-            else
-            {
-                 sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                            "FROM Tb_Fare" +
-                            " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                            +" where " +
-                            "Tb_Fare.UseDate BETWEEN (ISNULL(\'"+startDate+" \',Tb_Fare.UseDate)) " +
-                                    "  AND (ISNULL( \'"+ endDate+"\',Tb_Fare.UseDate))";
-            }
-        
-            
-        }
-        else if(info.getUseDate() == null && info.getEndDate() ==null)
-        {
-            startDate = null;
-            endDate = null;
-            sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                    "FROM Tb_Fare" +
-                    " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                    +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) or " +
-                    "Tb_Fare.UseDate BETWEEN (ISNULL("+startDate+" ,Tb_Fare.UseDate)) " +
-                            " AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
-            
-        }
-        else if (startDate.equals("") && endDate.equals(""))
-        {
-startDate = null;
-            endDate = null;
-            sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                    "FROM Tb_Fare" +
-                    " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                    +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ "))  " ;
-                    //+"Tb_Fare.UseDate BETWEEN (ISNULL("+startDate+" ,Tb_Fare.UseDate)) " +
-                        //    " AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
-            
-        }
-        else if(info.getUseDate() != null)
-        {
-            if( info.getEndDate() == "" && info.getUseDate() != "" ) {
-                    
-                    endDate="9999-01-01";
-                }
-                else if( info.getEndDate() == "" && info.getUseDate() != "" ) {
-    
-                    startDate="1700-01-01";
-                }
-             sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                        "FROM Tb_Fare" +
-                        " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                        +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) and " +
-                        "Tb_Fare.UseDate BETWEEN (ISNULL(\'"+startDate+" \',Tb_Fare.UseDate)) " +
-                                "  AND (ISNULL( \'"+ endDate+"\',Tb_Fare.UseDate))";
-        }
-        
-        
-        
-             /*
-             System.out.println(info.getEndDate());
-             if(info.getEndDate() == null)
-             {
-                 System.out.println(" is empty");
-             }
-            if( info.getEndDate() != ""  && endDate.equals("")) {//defaultDate.equals("") ||
-                
-                endDate="9999-01-01";
-            }
-            if( info.getUseDate() != null && startDate.equals(""))
-            {
-                startDate = "1900-01-01";
-            }
-        
-        
-        sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                "FROM Tb_Fare" +
-                " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) or " +
-                "Tb_Fare.UseDate BETWEEN ISNULL("+startDate+",Tb_Fare.UseDate) AND ISNULL("+endDate+",Tb_Fare.UseDate)";
-        /*
-             sql ="Select UseDate,Departure_station,Arrival_station,Purpose,Fare,FareID, " +
-                        "SUBSTRING((SELECT ',' + PersonName  FROM Tb_DutyPerson" +
-                        " where Tb_DutyPerson.PersonID=Tb_Fare.PersonID FOR XML PATH('')), 2, 999999) as PersonName" +
-                        " from Tb_Fare" +
-                        " where (PersonID =IIF("+info.getPersonID()+ " IS NULL, PersonID, "+ info.getPersonID()+ ")) and "
-                        + "(UseDate between \'"+info.getUseDate()+"\' AND \'"+defaultDate+"\' ) ";
-                */
+       if(info.getPersonID()==0)
+       {
+    	   if((startDate == null && endDate == null)||(startDate == "" && endDate == ""))
+           {
+               startDate = null;
+               endDate = null;
+                sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
+                           "FROM Tb_Fare" +
+                           " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
+                         +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) or " +
+                           "Tb_Fare.UseDate BETWEEN (ISNULL("+startDate+",Tb_Fare.UseDate)) " +
+                                   "  AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
+           }
+           
+           else
+           {
+        	   if( info.getEndDate() == ""  ) {
+                   
+                   endDate="9999-01-01";
+               }
+                sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
+                           "FROM Tb_Fare" +
+                           " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
+                          +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) or " +
+                           "Tb_Fare.UseDate BETWEEN (ISNULL(\'"+startDate+" \',Tb_Fare.UseDate)) " +
+                                   "  AND (ISNULL( \'"+ endDate+"\',Tb_Fare.UseDate))";
+           }
+       }
+       else 
+       {
+    	   if( info.getEndDate() == ""  ) {
+               
+               endDate="9999-01-01";
+           }
+          sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,"
+    	   		   + "Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName " +
+                   "FROM Tb_Fare" +
+                   " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
+                   +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) and " +
+                   "Tb_Fare.UseDate BETWEEN (ISNULL(\'"+startDate+" \',Tb_Fare.UseDate)) " +
+                    "  AND (ISNULL( \'"+ endDate+"\',Tb_Fare.UseDate))";
+       }
         
         List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
         System.out.println(list);
         return list;
     }
-    
-    public String getFare(String starteki,String endeki) throws IOException
-    {
-         String cost = null;
-         String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
-         Document document = Jsoup.connect(webURL).get();
-         Elements breadCrumbs=document.select("#rsltlst");
-        for (Element breadCrumb : breadCrumbs) {
-           
-            String    result = breadCrumb.text();
-            String[] strAry = result.split(" ");
-                 for (int i=0; i < strAry.length; i++) {
-                      cost=strAry[2];
-                    }
-        }
-
-        return cost;
-    }
+   
     
     public List<Map<String, Object>> getFareInfo()
     {
