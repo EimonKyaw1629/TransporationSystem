@@ -54,9 +54,10 @@ public class TransportationDAO {
     		   if (info.getEndDate() == ""){
     			   endDate="'9999-01-01'";
                    startDate = "'"+startDate+"'";
+    		   }else {
+    			   endDate="'"+endDate+"'";
+                   startDate = "'"+startDate+"'";
     		   }
-    		   endDate="'"+endDate+"'";
-               startDate = "'"+startDate+"'";
     	   }
        } else {
     	   AndOr = "and";
