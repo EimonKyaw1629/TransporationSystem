@@ -11,7 +11,6 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#btnClear').click(function(){                
-        /＊Clear all input type="text" box＊/
         $('#sampleForm input[type="text"]').val('');
         $('#sampleForm input[type="date"]').val('');        
     });
@@ -54,9 +53,15 @@ function getFormattedDate(date) {
        + ("0" + date.getDate()).slice(-2);
 }
 
+
 $(function(){
 	
 	var AS = $('#arrive');
+	var DS = $('#departure');
+	
+	DS.blur(function(){
+		$('#departure').attr("placeholder", "駅")
+	});
 	
 	AS.focus(function(){
 		if($('#departure').val() == ""){
@@ -121,24 +126,27 @@ $(function(){
                         
                         <tr>
                             <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">出発駅</label></td>
-                            <td><input type="text" id="departure" class="form-control" placeholder="駅" name="DepartureStation" th:value="${finfo.DepartureStation}" required></td>
+                            <td><input type="text" id="departure" class="form-control" placeholder="駅" name="DepartureStation" th:value="${finfo.DepartureStation}"></td>
                             <td></td>
                             <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">到着駅</label></td>
-                            <td><input type="text" id="arrive" class="form-control" placeholder="駅" name="ArrivalStation" th:value="${finfo.ArrivalStation}" required></td>
+                            <td><input type="text" id="arrive" class="form-control" placeholder="駅" name="ArrivalStation" th:value="${finfo.ArrivalStation}"></td>
                         </tr><tr height = 50px></tr>
                         <tr>
                             <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">金額</label></td>
                             <td><input type="text" id="cost" class="form-control" name="Fare" placeholder="cost" th:value="${finfo.Fare}+円" readonly required></td>
                             
                             <td>
-							<button type="submit" class="btn btn-default" value="search" name="search" >金額表示</button>&nbsp
-							<input type="checkbox" class="center" id="checkBoxId">
+							<!-- <button type="submit" class="btn btn-default" value="search" name="search" >金額表示</button>&nbsp -->
 							</td>
                             <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">移動目的</label></td>
                             <td><input type="text" class="form-control" placeholder="Purpose" name="Purpose" th:value="${finfo.Purpose}"></td>
                         </tr>
 						<tr>
-						<td ><p/></td>
+						<td></td>
+						<td>
+							<label>直接入力</label>
+							<input type="checkbox" class="center" id="checkBoxId" style="position: relative; top:1.5px;">
+						</td>
 						</tr>
 					</table>
                     <table style="margin-left: auto; margin-right: auto;">

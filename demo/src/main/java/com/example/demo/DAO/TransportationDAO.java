@@ -37,55 +37,45 @@ public class TransportationDAO {
                  fareID);
     }
     
-    
     public List<Map<String,Object>> getSearchList(FareInfo info)
     {
-        String sql= null;
-        String endDate  = info.getEndDate();
-        String startDate = info.getUseDate();
-       if(info.getPersonID()==0)
-       {
-           if((startDate == null && endDate == null)||(startDate == "" && endDate == ""))
-           {
-               startDate = null;
+       String sql= null;
+       String endDate  = info.getEndDate();
+       String startDate = info.getUseDate();
+       String AndOr =null;
+       
+       
+       if(info.getPersonID()==0) {
+    	   AndOr = "or";
+    	   if((startDate == null && endDate == null)||(startDate == "" && endDate == "")) {
+    		   startDate = null;
                endDate = null;
-                sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                           "FROM Tb_Fare" +
-                           " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                         +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) or " +
-                           "Tb_Fare.UseDate BETWEEN (ISNULL("+startDate+",Tb_Fare.UseDate)) " +
-                                   "  AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
-           }
-
-           else
-           {
-               if( info.getEndDate() == ""  ) {
-
-                   endDate="9999-01-01";
-               }
-                sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
-                           "FROM Tb_Fare" +
-                           " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                          +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) or " +
-                           "Tb_Fare.UseDate BETWEEN (ISNULL(\'"+startDate+" \',Tb_Fare.UseDate)) " +
-                                   "  AND (ISNULL( \'"+ endDate+"\',Tb_Fare.UseDate))";
+    	   } else {
+    		   if (info.getEndDate() == ""){
+    			   endDate="'9999-01-01'";
+                   startDate = "'"+startDate+"'";
+    		   }
+    		   endDate="'"+endDate+"'";
+               startDate = "'"+startDate+"'";
+    	   }
+       } else {
+    	   AndOr = "and";
+           if( info.getEndDate() == "") {
+        	   endDate = "'9999-01-01'";
+               startDate = "'"+startDate+"'";
+           } else {
+        	   endDate = "'"+endDate+"'";
+               startDate = "'"+startDate+"'";
            }
        }
-       else
-       {
-           if( info.getEndDate() == ""  ) {
-
-               endDate="9999-01-01";
-           }
-          sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,"
-                      + "Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName " +
-                   "FROM Tb_Fare" +
-                   " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
-                   +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) and " +
-                   "Tb_Fare.UseDate BETWEEN (ISNULL(\'"+startDate+" \',Tb_Fare.UseDate)) " +
-                    "  AND (ISNULL( \'"+ endDate+"\',Tb_Fare.UseDate))";
-       }
-
+       
+       sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
+               "FROM Tb_Fare" +
+               " INNER JOIN Tb_DutyPerson ON Tb_Fare.PersonID = Tb_DutyPerson.PersonID"
+             +" where (Tb_Fare.PersonID =IIF("+info.getPersonID()+ " IS NULL, Tb_Fare.PersonID, "+ info.getPersonID()+ ")) "+ AndOr +
+               " Tb_Fare.UseDate BETWEEN (ISNULL("+startDate+",Tb_Fare.UseDate)) " +
+                       "  AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
+       
         List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
         System.out.println(list);
         return list;
