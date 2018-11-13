@@ -5,13 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>交通費一覧画面</title>
-<script src="/path/to/jquery.min.js"></script>
-<link rel="stylesheet" href="/path/to/bootstrap.min.css">
-<script type="text/javascript">
-$(document).ready(function(){
-$("#test").excelTableFilter();
-});
-</script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 </head>
 <body>
@@ -51,29 +45,17 @@ $("#test").excelTableFilter();
 				</form>
 			</div>
 			
-			<div style="float:right;">
-			<form id="sampleForm" action="/TransportationList">
-				<table>
-					<tr>
-						<th><input style="text-align:center; width:70px; height:30px;" type="submit" class="btn btn-primary" value="ALL"></th>
-						<th width=5px></th>
-						<th><input style="text-align:center; width:70px; height:30px;" type="button" class="btn btn-primary"  value="Write"
-								   name="find" onclick="location.href='/'"></th>
-					</tr>
-				</table>
-			</form>
-			</div>
 			
 				<table class="table table-striped" id="test">
                     <thead>
                         <tr>
                            <th class="text-right" >担当者</th>
-                            <th class="text-right">利用日</th>
-                            <th class="text-right">出発駅</th>
-                            <th class="text-right">到着駅</th>
-                            <th class="text-right">利用目的</th>
-                            <th class="text-right">金額(円)</th>
-                            <th class="text-right">備考</th>
+                           <th class="text-right">利用日</th>
+                           <th class="text-right">出発駅</th>
+                           <th class="text-right">到着駅</th>
+                           <th class="text-right">利用目的</th>
+                           <th class="text-right">金額(円)</th>
+                           <th class="text-right">備考</th>
                         </tr>
                     </thead>	
                     <tbody>
@@ -96,12 +78,20 @@ $("#test").excelTableFilter();
                         </tr>
   	                </tfoot>
                 </table>        
-			
-			
+                
+                <div style="float:right;">
+					<form id="sampleForm" action="/TransportationList">
+						<table>
+							<tr>
+								<th><input style="text-align:center; width:70px; height:30px;" type="button" class="btn btn-primary"  value="Write"
+										   name="find" onclick="location.href='/'"></th>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
- 
 </div>
 </body>
 </html>

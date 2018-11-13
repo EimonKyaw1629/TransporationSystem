@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,21 +46,19 @@ public class TransportationService  extends JdbcDaoSupport{
 	}
 	
 	public String getFare(String starteki,String endeki) throws IOException
-	{
-		 String cost = null;
-		 String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
-		 Document document = Jsoup.connect(webURL).get();
-		 Elements breadCrumbs=document.select("#rsltlst");
-         for (Element breadCrumb : breadCrumbs) {
-        	
-        	 String	result = breadCrumb.text();
-        	 String[] strAry = result.split(" ");
-        	 	 for (int i=0; i < strAry.length; i++) {
-        	 	      cost=strAry[2];
-        	 	    }
-         }
-        
-         return cost;
-	}
+    {
+        String cost = null;
+        ArrayList<String> fare = new ArrayList<String>();
+        String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
+        Document document = Jsoup.connect(webURL).get();
+        Elements breadCrumbs=document.select(".fare");
+        for (Element breadCrumb : breadCrumbs) {
+           
+            String result = breadCrumb.text().replace("円", "");
+            fare.add(result);
+        }
+        cost = fare.get(0);
+        return cost;
+    }
 	
 }

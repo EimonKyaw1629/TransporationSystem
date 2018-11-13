@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.example.demo.DAO.TransportationDAO;
+import com.example.demo.Service.TransportationService;
 import com.example.demo.model.DutyPersonInfo;
 import com.example.demo.model.FareInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +27,9 @@ public class TransportationController {
 
 	@Autowired
 	private TransportationDAO dao;
+	
+	@Autowired
+	private TransportationService service;
 
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
 	public String searchTransitCost(@ModelAttribute FareInfo info,BindingResult result, Model m) throws IOException {
@@ -32,7 +38,7 @@ public class TransportationController {
 		m.addAttribute("dutyPersonInfo", dutyInfo);
 		if(info.getArrivalStation()!="" && info.getDepartureStation()!="")
 		{
-			String cost= dao.getFare(info.getDepartureStation(),info.getArrivalStation());	
+			String cost= service.getFare(info.getDepartureStation(),info.getArrivalStation());	
 			String tmp = cost.replace("円", "");
 			info.setFare(Integer.parseInt(tmp));
 		}

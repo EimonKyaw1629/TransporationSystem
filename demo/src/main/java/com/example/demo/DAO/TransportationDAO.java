@@ -2,6 +2,7 @@ package com.example.demo.DAO;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class TransportationDAO {
         String startDate = info.getUseDate();
         if(info.getPersonID() == 0)
         {
-            
+ 
             
             if( info.getEndDate() == "" && info.getUseDate() != "" ) {
                 
@@ -82,9 +83,9 @@ public class TransportationDAO {
                             "Tb_Fare.UseDate BETWEEN (ISNULL(\'"+startDate+" \',Tb_Fare.UseDate)) " +
                                     "  AND (ISNULL( \'"+ endDate+"\',Tb_Fare.UseDate))";
             }
-        
             
         }
+        
         else if(info.getUseDate() == null && info.getEndDate() ==null)
         {
             startDate = null;
@@ -97,9 +98,10 @@ public class TransportationDAO {
                             " AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
             
         }
+        
         else if (startDate.equals("") && endDate.equals(""))
         {
-startDate = null;
+        	startDate = null;
             endDate = null;
             sql ="SELECT Tb_Fare.PersonID,Tb_Fare.UseDate,Tb_Fare.Arrival_station,Tb_Fare.Departure_station,Tb_Fare.Purpose,Tb_Fare.FareID,Tb_Fare.Fare,Tb_DutyPerson.PersonName\r\n" +
                     "FROM Tb_Fare" +
@@ -109,6 +111,7 @@ startDate = null;
                         //    " AND (ISNULL( "+ endDate+",Tb_Fare.UseDate))";
             
         }
+        
         else if(info.getUseDate() != null)
         {
             if( info.getEndDate() == "" && info.getUseDate() != "" ) {
@@ -162,24 +165,6 @@ startDate = null;
         List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
         System.out.println(list);
         return list;
-    }
-    
-    public String getFare(String starteki,String endeki) throws IOException
-    {
-         String cost = null;
-         String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
-         Document document = Jsoup.connect(webURL).get();
-         Elements breadCrumbs=document.select("#rsltlst");
-        for (Element breadCrumb : breadCrumbs) {
-           
-            String    result = breadCrumb.text();
-            String[] strAry = result.split(" ");
-                 for (int i=0; i < strAry.length; i++) {
-                      cost=strAry[2];
-                    }
-        }
-
-        return cost;
     }
     
     public List<Map<String, Object>> getFareInfo()
