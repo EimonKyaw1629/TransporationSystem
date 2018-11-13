@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
 
@@ -10,11 +10,13 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	$('#btnClear').click(function(){				
-		/*Clear all input type="text" box*/
-		$('#sampleForm input[type="text"]').val('');
-		$('#sampleForm input[type="date"]').val('');		
-	});
+    $('#btnClear').click(function(){                
+        /＊Clear all input type="text" box＊/
+        $('#sampleForm input[type="text"]').val('');
+        $('#sampleForm input[type="date"]').val('');        
+    });
+    $("#Date").val(getFormattedDate(today()));
+    
 });
 
 $(function () {
@@ -30,96 +32,116 @@ $(function () {
 	
 function check()
 {
-    if (document.getElementById('cost').value=="0円"
-     || document.getElementById('cost').value==undefined)
-    {
-       
-        $("p").parent().after("<br/><div class='validation' style='color:red;margin-bottom: 20px;'>出発駅や到着駅を入れて、交通費検索ボタンを押下ください</div>");
-        return false;
-    }
-    return true;
+   if (document.getElementById('cost').value=="0円"
+    || document.getElementById('cost').value==undefined)
+   {
+
+       $("p").parent().after("<br/><div class='validation' style='color:red;margin-bottom: 20px;'>出発駅や到着駅を入れて、交通費検索ボタンを押下ください</div>");
+       return false;
+   }
+   return true;
+}
+
+function today() {
+   return new Date();
+}
+
+function getFormattedDate(date) {
+   return date.getFullYear()
+       + "-"
+       + ("0" + (date.getMonth() + 1)).slice(-2)
+       + "-"
+       + ("0" + date.getDate()).slice(-2);
 }
 
 $(function(){
-	var DS = $('#DepartureStation');
-	var AS = $('#ArrivalStation');
-	text.focus(function(){		  
-	    text.val('start');
+	
+	var AS = $('#arrive');
+	
+	AS.focus(function(){
+		if($('#departure').val() == ""){
+			$('#departure').focus();
+			$('#departure').attr("placeholder", "入力してぐださい");
+		}
 	});
-	text.blur(function(){
-	    $.ajax({
-	        type:"POST",
-	        url:"/multi",
-	        data:"DepartureStation=" + $('#DepartureStation').val()
-	        dataType : "text",
-	        contentType: "application/json",
-	        scriptCharset: 'utf-8',
-	        success: function(otdata, dataType){
-	            alert("OK");
-	        },
-	        error: function(xhr, status, error) {
-	            alert(error);
-	        }  
-	    });
-	  });
+	
+	AS.blur(function(){
+		if($('#departure').val() != "" && $('#arrive').val() != ""){
+			$.ajax({
+			    url: "/costitem/",
+			    type: 'POST',
+			    data: { 'from': $("#departure").val(),'to':$("#arrive").val() },
+			    success: function(data,status,xhr) {
+			     		if(data == -1){
+			     			alert("error: 駅名を正しく入力してください。");
+			     			$("#cost").val("0円");
+			     		} else {
+			     			$("#cost").val(data+"円");
+			     		}
+			    },
+			    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("error: "+XMLHttpRequest+"/"+textStatus+"/"+errorThrown);
+			    }
+				});
+			}
+		});	
 	});
 </script>
 
 </head>
 <body>
 <div layout:fragment="content">
-	<div class="form-horizontal">
-		<div class="container">
-			<div class="col-md-12 col-md-offset-0">
-				<h2 align="center">交通費管理</h2>
+    <div class="form-horizontal">
+        <div class="container">
+            <div class="col-md-12 col-md-offset-0">
+                <h2 align="center">交通費管理</h2>
 
-				<form id="sampleForm" action="/insert" method="post" th:object="${finfo}">
-					<table style="margin-left: auto; margin-right: auto; table-layout: fixed;" >
-					<tr height = 50px></tr>
-						<tr >
-							<td bgcolor="#C4FDFF" width="90"><label class="col-sm-12 control-label">担当者</label></td>
-							<td width=200px>
-
-							<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
-							<option 
-							      th:each="duty : ${dutyPersonInfo}"
-							      th:value="${duty.PersonID}"
-							      th:text="${duty.PersonName}"
-							      th:selected="${duty.PersonID == finfo.PersonID}" >
-							      
-							</option>
-							</select>	
-							</td>
-							
-							<td width=150px></td>
-							<td bgcolor="#C4FDFF" width="90"><label class="col-sm-12 control-label">利用日</label></td>
-							<td width=200px><input type="date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${finfo.UseDate}"></td>
-						</tr><tr height = 50px></tr>
-						
-						<tr>
-							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">出発駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" id="DepartureStation" name="DepartureStation" th:value="${finfo.DepartureStation}" required></td>
-							<td></td>
-							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">到着駅</label></td>
-							<td><input type="text" class="form-control" placeholder="駅" id="ArrivalStation" name="ArrivalStation" th:value="${finfo.ArrivalStation}" required></td>
-						</tr><tr height = 50px></tr>
-						<tr>
-							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">金額</label></td>
-							<td><input type="text" id="cost" class="form-control" name="Fare" placeholder="cost" th:value="${finfo.Fare}+円" readonly required></td>
-							
-							<td>
+                <form id="sampleForm" action="/insert" method="post" th:object="${finfo}">
+                    <table style="margin-left: auto; margin-right: auto; table-layout: fixed;" >
+                    <tr height = 50px></tr>
+                        <tr >
+                            <td bgcolor="#C4FDFF" width="100"><label class="col-sm-12 control-label">担当者</label></td>
+                            <td width=200px>
+                            
+                            <select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
+                            <option
+                                  th:each="duty : ${dutyPersonInfo}"
+                                  th:value="${duty.PersonID}"
+                                  th:text="${duty.PersonName}"
+                                  th:selected="${duty.PersonID == finfo.PersonID}" >
+                                  
+                            </option>
+                            </select>    
+                            </td>
+                            
+                            <td width=150px></td>
+                            <td bgcolor="#C4FDFF" width="100"><label class="col-sm-12 control-label">利用日</label></td>
+                            <td width=200px><input type="date" id="Date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${finfo.UseDate}" ></td>
+                        </tr><tr height = 50px></tr>
+                        
+                        <tr>
+                            <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">出発駅</label></td>
+                            <td><input type="text" id="departure" class="form-control" placeholder="駅" name="DepartureStation" th:value="${finfo.DepartureStation}" required></td>
+                            <td></td>
+                            <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">到着駅</label></td>
+                            <td><input type="text" id="arrive" class="form-control" placeholder="駅" name="ArrivalStation" th:value="${finfo.ArrivalStation}" required></td>
+                        </tr><tr height = 50px></tr>
+                        <tr>
+                            <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">金額</label></td>
+                            <td><input type="text" id="cost" class="form-control" name="Fare" placeholder="cost" th:value="${finfo.Fare}+円" readonly required></td>
+                            
+                            <td>
 							<button type="submit" class="btn btn-default" value="search" name="search" >金額表示</button>&nbsp
 							<input type="checkbox" class="center" id="checkBoxId">
 							</td>
-							<td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">移動目的</label></td>
-							<td><input type="text" class="form-control" placeholder="Purpose" name="Purpose" th:value="${finfo.Purpose}"></td>
-						</tr>
+                            <td bgcolor="#C4FDFF"><label class="col-sm-12 control-label">移動目的</label></td>
+                            <td><input type="text" class="form-control" placeholder="Purpose" name="Purpose" th:value="${finfo.Purpose}"></td>
+                        </tr>
 						<tr>
 						<td ><p/></td>
 						</tr>
 					</table>
-					
-					<table style="margin-left: auto; margin-right: auto;">
+                    <table style="margin-left: auto; margin-right: auto;">
 						<tr>
 							<td><input style="text-align:center; width:65px; height:35px;" type="button" class="btn btn-primary"  value="戻る"
 									onclick="location.href='/TransportationList'"></td>
@@ -129,10 +151,10 @@ $(function(){
 							<td><input style="text-align:center; width:65px; height:35px;" type="submit" id="btncreate" class="btn btn-primary" name="create" value="追加"  onclick=" return check();"/></td>
 						</tr>
 					</table>
-				</form>
-			</div>
-		</div>
-	</div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
