@@ -4,7 +4,15 @@
     layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>交通費一覧画面</title>
+<script src="/path/to/jquery.min.js"></script>
+<link rel="stylesheet" href="/path/to/bootstrap.min.css">
+<script type="text/javascript">
+$(document).ready(function(){
+$("#test").excelTableFilter();
+});
+</script>
+
 </head>
 <body>
 
@@ -21,6 +29,7 @@
 						<th>担当者</th>
 						<th>
 						<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
+						<option value="0" >All</option>
 							<option 
 							      th:each="duty : ${dutyInfo}"
 							      th:value="${duty.PersonID}"
@@ -55,10 +64,10 @@
 			</form>
 			</div>
 			
-				<table class="table table-striped">
+				<table class="table table-striped" id="test">
                     <thead>
                         <tr>
-                           <th class="text-right" name="PersonName">担当者</th>
+                           <th class="text-right" >担当者</th>
                             <th class="text-right">利用日</th>
                             <th class="text-right">出発駅</th>
                             <th class="text-right">到着駅</th>
@@ -86,9 +95,12 @@
                         </tr>
   	                </tfoot>
                 </table>        
+			
+			
 			</div>
 		</div>
 	</div>
+ 
 </div>
 </body>
 </html>

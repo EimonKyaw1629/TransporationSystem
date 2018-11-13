@@ -15,7 +15,7 @@ $(document).ready(function(){
 		$('#sampleForm input[type="text"]').val('');
 		$('#sampleForm input[type="date"]').val('');		
 	});
-
+	$("#Date").val(getFormattedDate(today()));
 });
 
 
@@ -31,6 +31,16 @@ function check()
     return true;
 }
 
+function today() {
+    return new Date();
+}
+function getFormattedDate(date) {
+    return date.getFullYear()
+        + "-"
+        + ("0" + (date.getMonth() + 1)).slice(-2)
+        + "-"
+        + ("0" + date.getDate()).slice(-2);
+}
 </script>
 
 </head>
@@ -47,7 +57,7 @@ function check()
 						<tr >
 							<td bgcolor="#C4FDFF" width="90"><label class="col-sm-12 control-label">担当者</label></td>
 							<td width=200px>
-
+							
 							<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
 							<option 
 							      th:each="duty : ${dutyPersonInfo}"
@@ -61,7 +71,7 @@ function check()
 							
 							<td width=150px></td>
 							<td bgcolor="#C4FDFF" width="90"><label class="col-sm-12 control-label">利用日</label></td>
-							<td width=200px><input type="date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${finfo.UseDate}"></td>
+							<td width=200px><input type="date" id="Date" class="form-control" placeholder="UseDate" name="UseDate" th:value="${finfo.UseDate}" ></td>
 						</tr><tr height = 50px></tr>
 						
 						<tr>

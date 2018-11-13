@@ -64,7 +64,7 @@ public class TransportationController {
 		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
 		m.addAttribute("dutyInfo", dutyInfo);
 		int totalcost=0;
-		List<Map<String, Object>> list=dao.getFareList();
+		List<Map<String, Object>> list=dao.getSearchList(info);
 
 		if(!list.isEmpty()) {
 			for (Map<String, Object> k : list) {	
