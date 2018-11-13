@@ -5,8 +5,27 @@
 <head>
 <meta charset="UTF-8">
 <title>交通費一覧画面</title>
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
+<script type="text/javascript">
+function filterText()
+{  
+	var rex = new RegExp($('#filterText').val());
+	if(rex =="/All/"){clearFilter()}else{
+		$('.content').hide();
+		$('.content').filter(function() {
+		return rex.test($(this).text());
+		}).show();
+}
+}
+
+function clearFilter()
+{
+	$('.filterText').val('');
+	$('.content').show();
+}
+
+
+</script>
 </head>
 <body>
 
@@ -49,30 +68,42 @@
 				<table class="table table-striped" id="test">
                     <thead>
                         <tr>
-                           <th class="text-right" >担当者</th>
-                           <th class="text-right">利用日</th>
-                           <th class="text-right">出発駅</th>
-                           <th class="text-right">到着駅</th>
-                           <th class="text-right">利用目的</th>
-                           <th class="text-right">金額(円)</th>
-                           <th class="text-right">備考</th>
+
+                            <th class="text-center" >担当者
+	                           	<select style="width:90px"  id='filterText'  name="PersonID" th:value="${finfo.PersonName}" onchange='filterText()'>
+								<option value="0" >All</option>
+								<option 
+								      th:each="duty : ${dutyInfo}"
+								      th:value="${duty.PersonName}"
+								      th:text="${duty.PersonName}"
+								      th:selected="${duty.PersonID == finfo.PersonID}" >
+								</option>
+								</select>
+                        	</th>
+                            <th class="text-center">利用日</th>
+                            <th class="text-right">出発駅</th>
+                            <th class="text-right">到着駅</th>
+                            <th class="text-right">利用目的</th>
+                            <th class="text-right">金額(円)</th>
+                            <th class="text-right">備考</th>
                         </tr>
                     </thead>	
                     <tbody>
                     	
-                        <tr class="text-right" th:each="fare : ${FareInfo}">
-							<td th:text="${fare.PersonName}"></td>
-							<td th:text="${fare.UseDate}"></td>
+                        <tr class="content text-right"  th:each="fare : ${FareInfo}">
+							<td th:text="${fare.PersonName}" class="text-center"></td>
+							<td th:text="${fare.UseDate}" class="text-center"></td>
                         	<td th:text="${fare.Departure_Station}"></td>
                         	<td th:text="${fare.Arrival_Station}"></td>
                         	<td th:text="${fare.Purpose}"></td>
                         	<td th:text="${fare.Fare}"></td>
                         	<td><a th:href="@{/delete(id=${fare.FareID})}">Delete</a></td>
+                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3"></td>
-                            <td colspan="2">合計</td>
+                            <td colspan="2"></td>
+                            <td colspan="3">合計</td>
                             <td class="text-right" th:text="${Total}"></td>
                             <td colspan="1"></td>
                         </tr>
