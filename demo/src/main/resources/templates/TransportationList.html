@@ -5,14 +5,26 @@
 <head>
 <meta charset="UTF-8">
 <title>交通費一覧画面</title>
-<script src="/path/to/jquery.min.js"></script>
-<link rel="stylesheet" href="/path/to/bootstrap.min.css">
 <script type="text/javascript">
-$(document).ready(function(){
-$("#test").excelTableFilter();
-});
-</script>
+function filterText()
+{  
+	var rex = new RegExp($('#filterText').val());
+	if(rex =="/All/"){clearFilter()}else{
+		$('.content').hide();
+		$('.content').filter(function() {
+		return rex.test($(this).text());
+		}).show();
+}
+}
 
+function clearFilter()
+{
+	$('.filterText').val('');
+	$('.content').show();
+}
+
+
+</script>
 </head>
 <body>
 
@@ -67,7 +79,18 @@ $("#test").excelTableFilter();
 				<table class="table table-striped" id="test">
                     <thead>
                         <tr>
-                           <th class="text-right" >担当者</th>
+                           <th class="text-right" >担当者
+                           	 <select  id='filterText'  name="PersonID" th:value="${finfo.PersonName}" onchange='filterText()'>
+						<option value="0" >All</option>
+							<option 
+							      th:each="duty : ${dutyInfo}"
+							      th:value="${duty.PersonName}"
+							      th:text="${duty.PersonName}"
+							      th:selected="${duty.PersonID == finfo.PersonID}" >
+							      
+							</option>
+							</select>
+                           </th>
                             <th class="text-right">利用日</th>
                             <th class="text-right">出発駅</th>
                             <th class="text-right">到着駅</th>
@@ -78,7 +101,7 @@ $("#test").excelTableFilter();
                     </thead>	
                     <tbody>
                     	
-                        <tr class="text-right" th:each="fare : ${FareInfo}">
+                        <tr class="content text-right"  th:each="fare : ${FareInfo}">
 							<td th:text="${fare.PersonName}"></td>
 							<td th:text="${fare.UseDate}"></td>
                         	<td th:text="${fare.Departure_Station}"></td>
