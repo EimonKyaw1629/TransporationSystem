@@ -2,12 +2,9 @@ package com.example.demo.Controller;
 
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,13 +85,7 @@ public class TransportationController {
 		m.addAttribute("FareInfo", list);
 	    return "TransportationList";
 	}
-	
-	@RequestMapping(value = "/delete")
-	public String deleteTransitInfo(@RequestParam int id, Model m) {
-		dao.deleteFaleInfo(id);
-		return "redirect:/TransportationList";
-	}
-	
+		
 	@RequestMapping(value="/searchItem",  method = RequestMethod.POST)
 	public String searchTransitItem(Model m,@ModelAttribute FareInfo info) {
 		

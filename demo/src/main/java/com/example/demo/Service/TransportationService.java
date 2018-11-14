@@ -20,31 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.model.FareInfo;
 import com.example.demo.model.TransportationInfo;
 
-@Component
-@Repository
-@Transactional
-public class TransportationService  extends JdbcDaoSupport{
 
-	@Autowired
-	public TransportationService(DataSource ds)
-	{
-		this.setDataSource(ds);
-	}
-	
-	public List<Map<String, Object>> getFareInfo()
-	{
-		String sql ="Select * from Tb_Fare";
-		  List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(sql);
-		  return list;
-	}
-	
-	public void insertFareInfo(FareInfo info)
-	{
-		String sql = "Insert into Tb_Fare(PersonID,UseDate,Departure_Station,Arrival_Station,Purpose,Fare)Values(?,?,?,?,?,?)";
-		Object[] params = new Object[] {info.getPersonID(),info.getUseDate(),info.getDepartureStation(),info.getArrivalStation(),
-				info.getPurpose(),info.getFare()};
-		getJdbcTemplate().update(sql,params);
-	}
+@Repository
+
+public class TransportationService {
+
 	
 	public List<TransportationInfo> getFare(String starteki,String endeki) throws IOException
     {

@@ -5,8 +5,33 @@
 <head>
 <meta charset="UTF-8">
 <title>交通費一覧画面</title>
-
 <script type="text/javascript">
+
+function Delete(id)
+{
+	var selected = document.getElementById("infolist").selectedIndex;
+	
+	$.ajax({
+	    url: "/deleteItem/",
+	    type: 'POST',
+	    data: { 'fareID':id,'personID': document.getElementById("infolist").options[selected].value},
+	    success: function(data) {
+	    	
+	    	if(data == -1){
+     			alert("error: 。");
+     			
+     		} else {
+     			alert("success");
+     			location.reload(); 
+     		}
+
+	    },
+	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("error: "+XMLHttpRequest+"/"+textStatus+"/"+errorThrown);
+	    }
+		});
+	
+	}
 function filterText()
 {  
 	var rex = new RegExp($('#filterText').val());
@@ -79,6 +104,7 @@ function clearFilter()
 								</option>
 								</select>
                         	</th>
+                        	
                             <th class="text-center">利用日</th>
                             <th class="text-right">出発駅</th>
                             <th class="text-right">到着駅</th>
@@ -90,13 +116,17 @@ function clearFilter()
                     <tbody>
                     	 
                         <tr class="content text-right"  th:each="fare : ${FareInfo}">
-							<td th:text="${fare.PersonName}" class="text-center"></td>
+                       	<td th:text="${fare.PersonName}" class="text-center"></td>
 							<td th:text="${fare.UseDate}" class="text-center"></td>
                         	<td th:text="${fare.Departure_Station}"></td>
                         	<td th:text="${fare.Arrival_Station}"></td>
                         	<td th:text="${fare.Purpose}"></td>
                         	<td th:text="${fare.Fare}"></td>
-                        	<td><a th:href="@{/delete(id=${fare.FareID})}">Delete</a></td>
+                        	<td> 
+                        	<button type="button" name="identifierRow" id="identifierRow" th:value="${fare.FareID}" 
+                        	th:onclick="'javascript:Delete(\'' + ${fare.FareID}+ '\');'">Delete</button>
+                        	
+                        	 </td>
                         </tr>
                     </tbody>
                     <tfoot>
