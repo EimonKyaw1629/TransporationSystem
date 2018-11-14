@@ -33,7 +33,6 @@ public class TransportationService {
 	        ArrayList<String> fare = new ArrayList<String>();
 	        ArrayList<String> timer = new ArrayList<String>();
 	        ArrayList<String> transfer = new ArrayList<String>();
-	        ArrayList<String> transport = new ArrayList<String>();
 	        String webURL = "https://transit.yahoo.co.jp/search/result?from="+starteki+"&to="+endeki;
 	        Document document = Jsoup.connect(webURL).get();
 	        
@@ -41,13 +40,6 @@ public class TransportationService {
 	        Elements rsltlst_fare=rsltlst.select(".fare");
 	        Elements rsltlst_time=rsltlst.select(".time");
 	        Elements rsltlst_transfer=rsltlst.select(".transfer");
-	        Elements rsltlst_transport=document.select(".transport");
-	        
-	        for (Element breadCrumb : rsltlst_transport) {
-	            String result = breadCrumb.text().replace("[line] [train]", "");
-	            result = result.replace("[line] [walk]", "");
-	            transport.add(result);
-	        }
 	        
 	        for (Element breadCrumb : rsltlst_fare) {
 	            String result = breadCrumb.text().replace("円", "");
@@ -71,7 +63,6 @@ public class TransportationService {
 	        	tmp.setFare(fare.get(i));
 	        	tmp.setTime(timer.get(i));
 	        	tmp.setTransfer(transfer.get(i));
-	        	tmp.setTransport(transport.get(i));
 	        	trInfo.add(i, tmp);
 	        }
 	        

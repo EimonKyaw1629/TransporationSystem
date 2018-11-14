@@ -5,21 +5,12 @@ public class TransportationInfo {
 	private String fare;
 	private String time;
 	private String transfer;
-	private String transport;
 	
 	@Override
 	public String toString() {
-		return "TransportationInfo [fare=" + fare + ", time=" + time + ", transfer=" + transfer + ", transport="
-				+ transport + "]";
+		return "TransportationInfo [fare=" + fare + ", time=" + time + ", transfer=" + transfer + " ]";
 	}
 	
-	
-	public String getTransport() {
-		return transport;
-	}
-	public void setTransport(String transport) {
-		this.transport = transport;
-	}
 	public String getFare() {
 		return fare;
 	}
