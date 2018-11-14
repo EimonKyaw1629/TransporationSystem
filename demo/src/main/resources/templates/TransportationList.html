@@ -16,22 +16,19 @@ function Delete(id)
 	    type: 'POST',
 	    data: { 'fareID':id,'personID': document.getElementById("infolist").options[selected].value},
 	    success: function(data) {
-	    	
 	    	if(data == -1){
-     			alert("error: 。");
-     			
+     			alert("error");
      		} else {
      			alert("success");
-     			location.reload(); 
+     			location.reload();
      		}
-
 	    },
 	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             alert("error: "+XMLHttpRequest+"/"+textStatus+"/"+errorThrown);
 	    }
-		});
-	
-	}
+	});
+}
+
 function filterText()
 {  
 	var rex = new RegExp($('#filterText').val());
@@ -89,7 +86,6 @@ function clearFilter()
 				</form>
 			</div>
 			
-			
 				<table class="table table-striped" id="test">
                     <thead>
                         <tr>
@@ -138,7 +134,7 @@ function clearFilter()
                         </tr>
   	                </tfoot>
                 </table>        
-                
+
                 <div style="float:right;">
 					<form id="sampleForm" action="/TransportationList">
 						<table>

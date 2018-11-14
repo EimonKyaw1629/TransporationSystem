@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +39,7 @@ public class TransportationRestController {
     }
 	
 	@RequestMapping(value="/deleteItem/",  method = RequestMethod.POST)
-    public int test(Model m,@RequestParam(value = "fareID" , required = false) int departure,@RequestParam(value = "personID" , required = false) int pid, ModelMap model) throws IOException
+    public int test(@RequestParam(value = "fareID" , required = false) int departure,@RequestParam(value = "personID" , required = false) int pid, ModelMap model) throws IOException
     {
 		try {
 			dao.deleteFaleInfo(departure);
