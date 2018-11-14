@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,13 +89,7 @@ public class TransportationController {
 		m.addAttribute("FareInfo", list);
 	    return "TransportationList";
 	}
-	
-	@RequestMapping(value = "/delete")
-	public String deleteTransitInfo(@RequestParam int id, Model m) {
-		dao.deleteFaleInfo(id);
-		return "redirect:/TransportationList";
-	}
-	
+		
 	@RequestMapping(value="/searchItem",  method = RequestMethod.POST)
 	public String searchTransitItem(Model m,@ModelAttribute FareInfo info) {
 		
