@@ -78,7 +78,7 @@ $(function(){
 			    data: { 'from': $("#departure").val(),'to':$("#arrive").val() },
 			    success: function(data,status,xhr) {
 			     		if(data == -1){
-			     			alert("error: 駅名を正しく入力してください。");
+			     			alert("駅名を正しく入力してください。");
 			     			$("#cost").val("0円");
 			     		} else {
 			     			$("#cost").val(data+"円");
@@ -157,6 +157,31 @@ $(function(){
 							<td><input style="text-align:center; width:65px; height:35px;" type="button" id="btnClear" class="btn btn-primary" value="クリア"/></td>
 							<td width=5px></td>
 							<td><input style="text-align:center; width:65px; height:35px;" type="submit" id="btncreate" class="btn btn-primary" name="create" value="追加"  onclick=" return check();"/></td>
+						</tr>
+					</table><br><br>
+					
+					<table style="margin-left: auto; margin-right: auto; width:550px;">
+						<tr>
+							<td colspan="3" align="right"><button type="submit" class="btn btn-default" value="search" name="search" >全体のルート</button>	</td>				
+						</tr>
+						<tr>
+							<td>
+							<table style="margin-left: auto; margin-right: auto; width:750px;" class="table table-striped">
+								<tr>
+									<td style="width:180px;" class="text-center">予想時間</td>
+									<td style="width:270px;" class="text-center">電車</td>
+									<td style="width:150px;" class="text-center">料金</td>
+									<td style="width:150px;" class="text-center">備考</td>
+								</tr>
+							
+								<tr class="content text-right"  th:each="trinfo : ${trInfo}">
+									<td th:text="${trinfo.time}" class="text-center"></td>
+									<td th:text="${trinfo.transport}" class="text-center"></td>
+									<td th:text="${trinfo.fare}" class="text-center"></td>
+		                        	<td th:text="${trinfo.transfer}" class="text-center"></td>
+                        		</tr>
+							</table>
+							</td>
 						</tr>
 					</table>
                 </form>

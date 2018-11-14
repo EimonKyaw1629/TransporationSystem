@@ -16,12 +16,6 @@ public class TransportationDAO {
     @Autowired
    private JdbcTemplate jdbcTemplate;
 
-   public List<FareInfo> fareFindAll() {
-       return this.jdbcTemplate.query("SELECT * FROM Tb_DutyPerson",
-           (rs, rowNum) -> new FareInfo(rs.getInt("FareID"), rs.getInt("PersonID"), rs.getString("UseDate"),
-                   rs.getString("Departure_station"), rs.getString("Arrival_station"), rs.getString("Purpose"), rs.getInt("Fare")));
-   }
-
    public List<DutyPersonInfo> dutyFindAll() {
        return this.jdbcTemplate.query("SELECT * FROM Tb_DutyPerson",
            (rs, rowNum) -> new DutyPersonInfo(rs.getInt("PersonID"), rs.getString("PersonName")));

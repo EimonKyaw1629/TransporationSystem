@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Service.TransportationService;
+import com.example.demo.model.TransportationInfo;
 
 @RestController
 public class TransportationRestController {
@@ -22,8 +24,8 @@ public class TransportationRestController {
     {
 		try {
 			
-			String cost= service.getFare(departure, arrive);	
-			String tmp = cost.replace("円", "");
+			List<TransportationInfo> trInfo = service.getFare(departure, arrive);	
+			String tmp = trInfo.get(0).getFare();
 			int fare = Integer.parseInt(tmp);
 			return fare;
 			

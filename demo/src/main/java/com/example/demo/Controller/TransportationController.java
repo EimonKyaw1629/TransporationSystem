@@ -2,9 +2,12 @@ package com.example.demo.Controller;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ import com.example.demo.DAO.TransportationDAO;
 import com.example.demo.Service.TransportationService;
 import com.example.demo.model.DutyPersonInfo;
 import com.example.demo.model.FareInfo;
+import com.example.demo.model.TransportationInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 
@@ -32,17 +36,16 @@ public class TransportationController {
 	private TransportationService service;
 
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
-	public String searchTransitCost(@ModelAttribute FareInfo info,BindingResult result, Model m) throws IOException {
+	public String searchTransitCost(@ModelAttribute FareInfo info,BindingResult result, String Fare, Model m) throws IOException {
 		
 		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
 		m.addAttribute("dutyPersonInfo", dutyInfo);
-		if(info.getArrivalStation()!="" && info.getDepartureStation()!="")
-		{
-			String cost= service.getFare(info.getDepartureStation(),info.getArrivalStation());	
-			String tmp = cost.replace("円", "");
-			info.setFare(Integer.parseInt(tmp));
+		String tmp = Fare.replace("円", "");
+		info.setFare(Integer.parseInt(tmp));
+		if(info.getArrivalStation()!="" && info.getDepartureStation()!="") {
+			List<TransportationInfo> trInfo= service.getFare(info.getDepartureStation(),info.getArrivalStation());
+			m.addAttribute("trInfo",trInfo);
 		}
-
 		m.addAttribute("finfo",info);
 		return "FrmTransportation";
 	}
