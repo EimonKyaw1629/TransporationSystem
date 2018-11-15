@@ -63,7 +63,7 @@ function clearFilter()
 					<tr>
 						<th>担当者</th>
 						<th>
-						<select  id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
+						<select id="infolist" class="form-control" name="PersonID" th:value="${finfo.PersonID}">
 						<option value="0" >All</option>
 							<option 
 							      th:each="duty : ${dutyInfo}"
