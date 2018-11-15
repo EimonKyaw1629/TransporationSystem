@@ -33,16 +33,17 @@ public class TransportationController {
 	private TransportationService service;
 
 	@RequestMapping(value={ "/insert" },params = "search", method = RequestMethod.POST) 
-	public String searchTransitCost(@ModelAttribute FareInfo info,BindingResult result, String Fare, Model m) throws IOException {
+	public String searchTransitCost(@ModelAttribute FareInfo info,BindingResult result, Model m) throws IOException {
 		
 		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
 		m.addAttribute("dutyPersonInfo", dutyInfo);
-		String tmp = Fare.replace("円", "");
-		info.setFare(Integer.parseInt(tmp));
+		
 		if(info.getArrivalStation()!="" && info.getDepartureStation()!="") {
 			List<TransportationInfo> trInfo= service.getFare(info.getDepartureStation(),info.getArrivalStation());
+			info.setFare(Integer.parseInt(trInfo.get(0).getFare()));
 			m.addAttribute("trInfo",trInfo);
 		}
+		
 		m.addAttribute("finfo",info);
 		return "FrmTransportation";
 	}

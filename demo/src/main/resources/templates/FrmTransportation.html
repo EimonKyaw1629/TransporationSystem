@@ -53,6 +53,10 @@ function getFormattedDate(date) {
        + ("0" + date.getDate()).slice(-2);
 }
 
+function sentaku(){
+	var tmp = event.target.value;
+	document.getElementById("cost").value = tmp+"円";
+}
 
 $(function(){
 	
@@ -91,6 +95,7 @@ $(function(){
 			}
 		});	
 	});
+	
 </script>
 
 </head>
@@ -153,11 +158,12 @@ $(function(){
 						</tr>
 						<tr>
 							<td>
-							<table style="margin-left: auto; margin-right: auto; width:700px;" class="table table-striped table-dark">
+							<table style="margin-left: auto; margin-right: auto; width:600px;" class="table table-striped table-dark">
 								<tr>
 									<td style="width:200px;" class="text-center">予想時間</td>
 									<td style="width:150px;" class="text-center">料金（円）</td>
-									<td style="width:150px;" class="text-center">備考</td>
+									<td style="width:150px;" class="text-center">乗り換え</td>
+									<td style="width:100px;" class="text-center">備考</td>
 								</tr>
 
 								<tbody th:each="trinfo : ${trInfo}" >
@@ -165,9 +171,13 @@ $(function(){
 										<td style="width:300px; height:30px;" th:text="${trinfo.time}" class="text-center"></td>
 										<td style="width:200px; height:30px;" th:text="${trinfo.fare}" class="text-center"></td>
 							            <td style="width:200px; height:30px;" th:text="${trinfo.transfer}" class="text-center"></td>
+							            <td><button type="button" onClick="sentaku()" th:value="${trinfo.fare}">選択</button></td>   
 					                </tr>
 					                <tr class="content text-right">
-										<td colspan="3" th:text="${trinfo.station}" class="text-left"></td>
+										<td colspan="4" th:text="${trinfo.station}" class="text-left"></td>
+							        </tr>
+							        <tr class="content text-right">
+										<td colspan="4" th:text="${trinfo.transport}" class="text-left"></td>
 							        </tr>
 							    </tbody>
 							    <tr></tr>

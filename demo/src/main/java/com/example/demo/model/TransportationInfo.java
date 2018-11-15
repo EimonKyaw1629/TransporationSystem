@@ -6,13 +6,23 @@ public class TransportationInfo {
 	private String time;
 	private String transfer;
 	private String station;
+	private String transport;
 	
 	@Override
 	public String toString() {
 		return "TransportationInfo [fare=" + fare + ", time=" + time + ", transfer=" + transfer + ", station=" + station
-				+ "]";
+				+ ", transport=" + transport + "]";
 	}
 	
+	public String getTransport() {
+		return transport;
+	}
+
+	public void setTransport(String transport) {
+		this.transport = transport;
+	}
+
+
 	public String getStation() {
 		return station;
 	}

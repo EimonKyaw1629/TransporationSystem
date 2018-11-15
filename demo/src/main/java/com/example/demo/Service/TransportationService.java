@@ -21,9 +21,12 @@ public class TransportationService {
     {
 		try {
 			StringBuilder str = new StringBuilder();
-			ArrayList<String> strtmp = new ArrayList<String>();
-			ArrayList<ArrayList<String>> GroupList = new ArrayList<ArrayList<String>>();
+			ArrayList<String> StatStr = new ArrayList<String>();
+			ArrayList<String> TransStr = new ArrayList<String>();
+			ArrayList<ArrayList<String>> StationGroup = new ArrayList<ArrayList<String>>();
+			ArrayList<ArrayList<String>> TransportGroup = new ArrayList<ArrayList<String>>();
 			ArrayList<Elements> StationList = new ArrayList<Elements>();
+			ArrayList<Elements> TransportList = new ArrayList<Elements>();
 
 	        List<TransportationInfo> trInfo = new ArrayList<TransportationInfo>();
 	        ArrayList<String> fare = new ArrayList<String>();
@@ -40,6 +43,7 @@ public class TransportationService {
 	        
 	        for (int i = 1 ; i <= 3 ; i++) {
 	        	StationList.add(document.select("#route0"+i).select(".station"));
+	        	TransportList.add(document.select("#route0"+i).select(".transport"));
 	        }
 	        
 	        for (Elements st : StationList) {
@@ -51,9 +55,26 @@ public class TransportationService {
 		            result = result.replace("[dep]", "");
 		            result = result.replace("[train]", "");
 		            result = result.replace("[arr]", "");
+		            result = result.replace("[turn]", "");
 		            StationTmp.add(result);
 		        }
-	        	GroupList.add(StationTmp);
+	        	StationGroup.add(StationTmp);
+	        }
+	        
+	        for (Elements st : TransportList) {
+	        	ArrayList<String> StationTmp = new ArrayList<String>();
+	        	for (Element breadCrumb : st) {
+		            String result = breadCrumb.text().replace("[line]", "");
+		            result = result.replace("[train]", "");
+		            result = result.replace("[walk]", "");
+		            if(result.indexOf("・")== -1) {
+			            StationTmp.add(result);
+		            } else {
+		            	result = result.substring(0, result.indexOf("・"));
+			            StationTmp.add(result);
+		            }
+		        }
+	        	TransportGroup.add(StationTmp);
 	        }
 	        
 	        for (Element breadCrumb : rsltlst_fare) {
@@ -73,11 +94,19 @@ public class TransportationService {
 	            transfer.add(result);
 	        }
 	        
-	        for (ArrayList<String> list : GroupList) {
+	        for (ArrayList<String> list : StationGroup) {
         		for (String station : list) {
 	        		str.append(station+" → ");
 	        	}
-        		strtmp.add(str.toString().substring(0, str.lastIndexOf("→")));
+        		StatStr.add(str.toString().substring(0, str.lastIndexOf("→")));
+        		str.setLength(0);
+        	}
+	        
+	        for (ArrayList<String> list : TransportGroup) {
+        		for (String transport : list) {
+	        		str.append(transport+" → ");
+	        	}
+        		TransStr.add(str.toString().substring(0, str.lastIndexOf("→")));
         		str.setLength(0);
         	}
 	        
@@ -86,7 +115,8 @@ public class TransportationService {
 	        	tmp.setFare(fare.get(i));
 	        	tmp.setTime(timer.get(i));
 	        	tmp.setTransfer(transfer.get(i));
-	        	tmp.setStation(strtmp.get(i));
+	        	tmp.setStation(StatStr.get(i));
+	        	tmp.setTransport(TransStr.get(i));
 	        	trInfo.add(i, tmp);
 	        }
 	        
