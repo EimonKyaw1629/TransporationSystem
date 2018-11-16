@@ -28,24 +28,6 @@ function Delete(id)
 	    }
 	});
 }
-/*
-function filterText()
-{  
-	var rex = new RegExp($('#filterText').val());
-	if(rex =="/All/"){clearFilter()}else{
-		$('.content').hide();
-		$('.content').filter(function() {
-		return rex.test($(this).text());
-		}).show();
-	}
-}
-
-function clearFilter()
-{
-	$('.filterText').val('');
-	$('.content').show();
-}
-*/
 
 </script>
 </head>
@@ -90,8 +72,8 @@ function clearFilter()
                     <thead>
                         <tr>
                              <th class="text-center"  >担当者
-                             <form id="sampleForm"  th:object="${filterinfo}" action="/filterItem" method="post" ><!-- th:object="${filterinfo}" -->
-	                           	<select style="width:90px"  id='filterText'  name="PersonID" th:value="${filterinfo.PersonID}"   onchange="this.form.submit();"><!-- onchange='filterText()' -->
+                             <form id="sampleForm"  th:object="${filterinfo}" action="/TransportationList" method="post" >
+	                           	<select style="width:90px"  id='filterText'  name="PersonID" th:value="${filterinfo.PersonID}"   onchange="this.form.submit();">
 								<option value="0" >All</option>
 								<option 
 								      th:each="duty : ${dutyInfo}"

@@ -112,7 +112,7 @@ public class TransportationController {
 		return "TransportationList";
 	}
 	
-	@RequestMapping(value="/filterItem",  method = RequestMethod.POST)
+	@RequestMapping(value="/TransportationList",  method = RequestMethod.POST)
 	public String filterTransitItem(Model m,@ModelAttribute FareInfo info) {
 		
 		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
