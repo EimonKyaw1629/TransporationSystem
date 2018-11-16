@@ -45,6 +45,7 @@ public class TransportationController {
 		}
 		
 		m.addAttribute("finfo",info);
+		m.addAttribute("filterinfo",info);
 		return "FrmTransportation";
 	}
 	
@@ -84,6 +85,7 @@ public class TransportationController {
 		}
 		m.addAttribute("finfo",info);
 		m.addAttribute("FareInfo", list);
+		m.addAttribute("filterinfo",info);
 	    return "TransportationList";
 	}
 		
@@ -106,7 +108,33 @@ public class TransportationController {
 		}
 		m.addAttribute("finfo",info);
 		m.addAttribute("FareInfo", list);
+		m.addAttribute("filterinfo",info);
 		return "TransportationList";
 	}
+	
+	@RequestMapping(value="/filterItem",  method = RequestMethod.POST)
+	public String filterTransitItem(Model m,@ModelAttribute FareInfo info) {
+		
+		List<DutyPersonInfo> dutyInfo = dao.dutyFindAll();
+		m.addAttribute("dutyInfo", dutyInfo);
+		int totalcost=0;
+		List<Map<String, Object>> list=dao.getSearchList(info);	
+		if(!list.isEmpty()) {
+			for (Map<String, Object> k : list) {	
+				totalcost += Integer.valueOf(k.get("Fare").toString());
+			}
+			m.addAttribute("Total",totalcost);
+		}
+		else {
+			
+			list= new ArrayList<Map<String, Object>>();
+		}
+		FareInfo finfo = new FareInfo();
+		m.addAttribute("filterinfo",info);
+		m.addAttribute("FareInfo", list);
+		m.addAttribute("finfo",finfo);
+		return "TransportationList";
+	}
+
 
 }

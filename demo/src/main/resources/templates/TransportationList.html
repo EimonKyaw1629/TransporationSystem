@@ -28,7 +28,7 @@ function Delete(id)
 	    }
 	});
 }
-
+/*
 function filterText()
 {  
 	var rex = new RegExp($('#filterText').val());
@@ -45,7 +45,7 @@ function clearFilter()
 	$('.filterText').val('');
 	$('.content').show();
 }
-
+*/
 
 </script>
 </head>
@@ -89,16 +89,18 @@ function clearFilter()
 				<table class="table table-striped" id="test">
                     <thead>
                         <tr>
-                            <th class="text-center" >担当者
-	                           	<select style="width:90px"  id='filterText'  name="PersonID" th:value="${PersonName}" onchange='filterText()'>
+                             <th class="text-center"  >担当者
+                             <form id="sampleForm"  th:object="${filterinfo}" action="/filterItem" method="post" ><!-- th:object="${filterinfo}" -->
+	                           	<select style="width:90px"  id='filterText'  name="PersonID" th:value="${filterinfo.PersonID}"   onchange="this.form.submit();"><!-- onchange='filterText()' -->
 								<option value="0" >All</option>
 								<option 
 								      th:each="duty : ${dutyInfo}"
-								      th:value="${duty.PersonName}"
+								      th:value="${duty.PersonID}"
 								      th:text="${duty.PersonName}"
-								      th:selected="${duty.PersonID == PersonID}" >
+								      th:selected="${duty.PersonID == filterinfo.PersonID}" >
 								</option>
 								</select>
+							  	</form>
                         	</th>
                         	
                             <th class="text-center">利用日</th>
