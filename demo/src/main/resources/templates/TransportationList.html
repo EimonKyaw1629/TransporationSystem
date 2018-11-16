@@ -32,11 +32,25 @@ function Delete(id)
 function filterText()
 {  
 	var rex = new RegExp($('#filterText').val());
+	var data = Array();
+	var sum = 0;
+	
 	if(rex =="/All/"){clearFilter()}else{
 		$('.content').hide();
 		$('.content').filter(function() {
 		return rex.test($(this).text());
+		}).each(function(i, v){
+		    data[i] = Array();
+		    $(this).children('td').each(function(ii, vv){
+		        data[i][ii] = $(this).text();
+		    }); 
 		}).show();
+		
+		for(var i in data) {
+			sum += Number(data[i][5]);
+		} 
+		
+		document.getElementById('total').innerHTML = sum;
 	}
 }
 
@@ -45,7 +59,6 @@ function clearFilter()
 	$('.filterText').val('');
 	$('.content').show();
 }
-
 
 </script>
 </head>
@@ -110,9 +123,9 @@ function clearFilter()
                         </tr>
                     </thead>	
                     <tbody>
-                    	 
+
                         <tr class="content text-right"  th:each="fare : ${FareInfo}">
-                       	<td th:text="${fare.PersonName}" class="text-center"></td>
+                       		<td th:text="${fare.PersonName}" class="text-center"></td>
 							<td th:text="${fare.UseDate}" class="text-center"></td>
                         	<td th:text="${fare.Departure_Station}"></td>
                         	<td th:text="${fare.Arrival_Station}"></td>
@@ -121,15 +134,15 @@ function clearFilter()
                         	<td> 
                         	<button type="button" name="identifierRow" id="identifierRow" th:value="${fare.FareID}" 
                         	th:onclick="'javascript:Delete(\'' + ${fare.FareID}+ '\');'">Delete</button>
-                        	
-                        	 </td>
+                        	</td>
                         </tr>
+                        
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="3">合計</td>
-                            <td class="text-right" th:text="${Total}"></td>
+                            <td class="text-right" th:text="${Total}" id="total"></td>
                             <td colspan="1"></td>
                         </tr>
   	                </tfoot>
